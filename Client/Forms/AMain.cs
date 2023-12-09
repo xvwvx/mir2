@@ -59,6 +59,9 @@ namespace Launcher
         {
             try
             {
+                Completed = true;
+                return;
+                
                 GetOldFileList();
 
                 if (OldList.Count == 0)
