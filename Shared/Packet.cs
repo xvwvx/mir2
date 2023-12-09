@@ -28,18 +28,9 @@ public abstract class Packet
             var attribute = (RouteAttribute)type
                 .GetCustomAttributes(typeof(RouteAttribute), true)
                 .First();
-            if (attribute.ServerId is { } serverId)
-            {
-                var id = (ushort)serverId;
-                idsMap.Add(id, type);
-                typeMap[type] = id;
-            }
-            else if (attribute.ClientId is { } clientId)
-            {
-                var id = (ushort)clientId;
-                idsMap.Add(id, type);
-                typeMap.Add(type, id);
-            }
+            var id = attribute.RouteId;
+            idsMap.Add(id, type);
+            typeMap.Add(type, id);
         }
         IdsMap = idsMap;
         TypeMap = typeMap;

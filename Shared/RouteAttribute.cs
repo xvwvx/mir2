@@ -3,19 +3,12 @@
     [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
     public class RouteAttribute : Attribute
     {
-        public readonly ClientPacketIds? ClientId;
-        public readonly ServerPacketIds? ServerId;
+        public readonly UInt16 RouteId;
 
-        public RouteAttribute(ClientPacketIds clientId)
+        public RouteAttribute(ushort routeId)
         {
-            ClientId = clientId;
-            ServerId = null;
+            RouteId = routeId;
         }
 
-        public RouteAttribute(ServerPacketIds serverId)
-        {
-            ClientId = null;
-            ServerId = serverId;
-        }
     }
 }

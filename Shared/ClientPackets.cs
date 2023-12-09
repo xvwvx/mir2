@@ -4,27 +4,27 @@ using Shared;
 
 namespace ClientPackets
 {
-    [MessagePackObject, Route(ClientPacketIds.ClientVersion)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ClientVersion)]
     public sealed class ClientVersion : Packet
     {
         [Key(0)]
         public byte[] VersionHash;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Disconnect)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Disconnect)]
     public sealed class Disconnect : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.KeepAlive)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.KeepAlive)]
     public sealed class KeepAlive : Packet
     {
         [Key(0)]
         public long Time;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.NewAccount)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.NewAccount)]
     public sealed class NewAccount : Packet
     {
         [Key(0)]
@@ -43,7 +43,7 @@ namespace ClientPackets
         public string EMailAddress = string.Empty;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ChangePassword)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ChangePassword)]
     public sealed class ChangePassword : Packet
     {
         [Key(0)]
@@ -54,7 +54,7 @@ namespace ClientPackets
         public string NewPassword = string.Empty;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Login)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Login)]
     public sealed class Login : Packet
     {
         [Key(0)]
@@ -63,7 +63,7 @@ namespace ClientPackets
         public string Password = string.Empty;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.NewCharacter)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.NewCharacter)]
     public sealed class NewCharacter : Packet
     {
         [Key(0)]
@@ -74,48 +74,48 @@ namespace ClientPackets
         public MirClass Class;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DeleteCharacter)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DeleteCharacter)]
     public sealed class DeleteCharacter : Packet
     {
         [Key(0)]
         public int CharacterIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.StartGame)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.StartGame)]
     public sealed class StartGame : Packet
     {
         [Key(0)]
         public int CharacterIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.LogOut)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.LogOut)]
     public sealed class LogOut : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Turn)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Turn)]
     public sealed class Turn : Packet
     {
         [Key(0)]
         public MirDirection Direction;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Walk)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Walk)]
     public sealed class Walk : Packet
     {
         [Key(0)]
         public MirDirection Direction;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Run)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Run)]
     public sealed class Run : Packet
     {
         [Key(0)]
         public MirDirection Direction;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Chat)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Chat)]
     public sealed class Chat : Packet
     {
         [Key(0)]
@@ -124,7 +124,7 @@ namespace ClientPackets
         public List<ChatItem> LinkedItems = new List<ChatItem>();
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MoveItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MoveItem)]
     public sealed class MoveItem : Packet
     {
         [Key(0)]
@@ -135,7 +135,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.StoreItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.StoreItem)]
     public sealed class StoreItem : Packet
     {
         [Key(0)]
@@ -144,7 +144,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DepositRefineItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DepositRefineItem)]
     public sealed class DepositRefineItem : Packet
     {
         [Key(0)]
@@ -153,7 +153,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RetrieveRefineItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RetrieveRefineItem)]
     public sealed class RetrieveRefineItem : Packet
     {
         [Key(0)]
@@ -162,27 +162,27 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RefineCancel)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RefineCancel)]
     public sealed class RefineCancel : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RefineItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RefineItem)]
     public sealed class RefineItem : Packet
     {
         [Key(0)]
         public ulong UniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CheckRefine)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CheckRefine)]
     public sealed class CheckRefine : Packet
     {
         [Key(0)]
         public ulong UniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ReplaceWedRing)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ReplaceWedRing)]
     public sealed class ReplaceWedRing : Packet
     {
         [Key(0)]
@@ -190,7 +190,7 @@ namespace ClientPackets
     }
 
 
-    [MessagePackObject, Route(ClientPacketIds.DepositTradeItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DepositTradeItem)]
     public sealed class DepositTradeItem : Packet
     {
         [Key(0)]
@@ -199,7 +199,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RetrieveTradeItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RetrieveTradeItem)]
     public sealed class RetrieveTradeItem : Packet
     {
         [Key(0)]
@@ -208,7 +208,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TakeBackItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TakeBackItem)]
     public sealed class TakeBackItem : Packet
     {
         [Key(0)]
@@ -217,7 +217,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MergeItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MergeItem)]
     public sealed class MergeItem : Packet
     {
         [Key(0)]
@@ -230,7 +230,7 @@ namespace ClientPackets
         public ulong IDTo;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.EquipItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.EquipItem)]
     public sealed class EquipItem : Packet
     {
         [Key(0)]
@@ -241,7 +241,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RemoveItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RemoveItem)]
     public sealed class RemoveItem : Packet
     {
         [Key(0)]
@@ -252,7 +252,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RemoveSlotItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RemoveSlotItem)]
     public sealed class RemoveSlotItem : Packet
     {
         [Key(0)]
@@ -267,7 +267,7 @@ namespace ClientPackets
         public ulong FromUniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SplitItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SplitItem)]
     public sealed class SplitItem : Packet
     {
         [Key(0)]
@@ -278,7 +278,7 @@ namespace ClientPackets
         public ushort Count;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.UseItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.UseItem)]
     public sealed class UseItem : Packet
     {
         [Key(0)]
@@ -287,7 +287,7 @@ namespace ClientPackets
         public MirGridType Grid;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DropItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DropItem)]
     public sealed class DropItem : Packet
     {
         [Key(0)]
@@ -298,7 +298,7 @@ namespace ClientPackets
         public bool HeroInventory = false;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TakeBackHeroItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TakeBackHeroItem)]
     public sealed class TakeBackHeroItem : Packet
     {
         [Key(0)]
@@ -307,7 +307,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TransferHeroItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TransferHeroItem)]
     public sealed class TransferHeroItem : Packet
     {
         [Key(0)]
@@ -316,20 +316,20 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DropGold)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DropGold)]
     public sealed class DropGold : Packet
     {
         [Key(0)]
         public uint Amount;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.PickUp)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.PickUp)]
     public sealed class PickUp : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Inspect)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Inspect)]
     public sealed class Inspect : Packet
     {
         [Key(0)]
@@ -340,35 +340,35 @@ namespace ClientPackets
         public bool Hero = false;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Observe)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Observe)]
     public sealed class Observe : Packet
     {
         [Key(0)]
         public string Name;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ChangeAMode)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ChangeAMode)]
     public sealed class ChangeAMode : Packet
     {
         [Key(0)]
         public AttackMode Mode;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ChangePMode)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ChangePMode)]
     public sealed class ChangePMode : Packet
     {
         [Key(0)]
         public PetMode Mode;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ChangeTrade)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ChangeTrade)]
     public sealed class ChangeTrade : Packet
     {
         [Key(0)]
         public bool AllowTrade;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Attack)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Attack)]
     public sealed class Attack : Packet
     {
         [Key(0)]
@@ -377,7 +377,7 @@ namespace ClientPackets
         public Spell Spell;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RangeAttack)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RangeAttack)]
     public sealed class RangeAttack : Packet //ArcherTest
     {
         [Key(0)]
@@ -390,14 +390,14 @@ namespace ClientPackets
         public Point TargetLocation;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Harvest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Harvest)]
     public sealed class Harvest : Packet
     {
         [Key(0)]
         public MirDirection Direction;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CallNPC)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CallNPC)]
     public sealed class CallNPC : Packet
     {
         [Key(0)]
@@ -406,7 +406,7 @@ namespace ClientPackets
         public string Key = string.Empty;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.BuyItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.BuyItem)]
     public sealed class BuyItem : Packet
     {
         [Key(0)]
@@ -417,7 +417,7 @@ namespace ClientPackets
         public PanelType Type;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SellItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SellItem)]
     public sealed class SellItem : Packet
     {
         [Key(0)]
@@ -426,7 +426,7 @@ namespace ClientPackets
         public ushort Count;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CraftItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CraftItem)]
     public sealed class CraftItem : Packet
     {
         [Key(0)]
@@ -437,14 +437,14 @@ namespace ClientPackets
         public int[] Slots;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RepairItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RepairItem)]
     public sealed class RepairItem : Packet
     {
         [Key(0)]
         public ulong UniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.BuyItemBack)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.BuyItemBack)]
     public sealed class BuyItemBack : Packet
     {
         [Key(0)]
@@ -453,35 +453,35 @@ namespace ClientPackets
         public ushort Count;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SRepairItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SRepairItem)]
     public sealed class SRepairItem : Packet
     {
         [Key(0)]
         public ulong UniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RequestMapInfo)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RequestMapInfo)]
     public sealed class RequestMapInfo : Packet
     {
         [Key(0)]
         public int MapIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TeleportToNPC)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TeleportToNPC)]
     public sealed class TeleportToNPC : Packet
     {
         [Key(0)]
         public uint ObjectID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SearchMap)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SearchMap)]
     public sealed class SearchMap : Packet
     {
         [Key(0)]
         public string Text;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MagicKey)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MagicKey)]
     public sealed class MagicKey : Packet
     {
         [Key(0)]
@@ -492,7 +492,7 @@ namespace ClientPackets
         public byte OldKey;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Magic)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Magic)]
     public sealed class Magic : Packet
     {
         [Key(0)]
@@ -509,35 +509,35 @@ namespace ClientPackets
         public bool SpellTargetLock;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SwitchGroup)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SwitchGroup)]
     public sealed class SwitchGroup : Packet
     {
         [Key(0)]
         public bool AllowGroup;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AddMember)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AddMember)]
     public sealed class AddMember : Packet
     {
         [Key(0)]
         public string Name = string.Empty;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DellMember)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DellMember)]
     public sealed class DelMember : Packet
     {
         [Key(0)]
         public string Name = string.Empty;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GroupInvite)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GroupInvite)]
     public sealed class GroupInvite : Packet
     {
         [Key(0)]
         public bool AcceptInvite;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.NewHero)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.NewHero)]
     public sealed class NewHero : Packet
     {
         [Key(0)]
@@ -548,7 +548,7 @@ namespace ClientPackets
         public MirClass Class;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SetAutoPotValue)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SetAutoPotValue)]
     public sealed class SetAutoPotValue : Packet
     {
         [Key(0)]
@@ -557,7 +557,7 @@ namespace ClientPackets
         public uint Value;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SetAutoPotItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SetAutoPotItem)]
     public sealed class SetAutoPotItem : Packet
     {
         [Key(0)]
@@ -566,119 +566,119 @@ namespace ClientPackets
         public int ItemIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SetHeroBehaviour)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SetHeroBehaviour)]
     public sealed class SetHeroBehaviour : Packet
     {
         [Key(0)]
         public HeroBehaviour Behaviour;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ChangeHero)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ChangeHero)]
     public sealed class ChangeHero : Packet
     {
         [Key(0)]
         public int ListIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarriageRequest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarriageRequest)]
     public sealed class MarriageRequest : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarriageReply)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarriageReply)]
     public sealed class MarriageReply : Packet
     {
         [Key(0)]
         public bool AcceptInvite;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ChangeMarriage)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ChangeMarriage)]
     public sealed class ChangeMarriage : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DivorceRequest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DivorceRequest)]
     public sealed class DivorceRequest : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DivorceReply)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DivorceReply)]
     public sealed class DivorceReply : Packet
     {
         [Key(0)]
         public bool AcceptInvite;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AddMentor)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AddMentor)]
     public sealed class AddMentor : Packet
     {
         [Key(0)]
         public string Name;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MentorReply)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MentorReply)]
     public sealed class MentorReply : Packet
     {
         [Key(0)]
         public bool AcceptInvite;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AllowMentor)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AllowMentor)]
     public sealed class AllowMentor : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CancelMentor)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CancelMentor)]
     public sealed class CancelMentor : Packet
     {
 
     }
 
 
-    [MessagePackObject, Route(ClientPacketIds.TradeReply)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TradeReply)]
     public sealed class TradeReply : Packet
     {
         [Key(0)]
         public bool AcceptInvite;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TradeRequest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TradeRequest)]
     public sealed class TradeRequest : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TradeGold)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TradeGold)]
     public sealed class TradeGold : Packet
     {
         [Key(0)]
         public uint Amount;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TradeConfirm)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TradeConfirm)]
     public sealed class TradeConfirm : Packet
     {
         [Key(0)]
         public bool Locked;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TradeCancel)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TradeCancel)]
     public sealed class TradeCancel : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.TownRevive)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.TownRevive)]
     public sealed class TownRevive : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SpellToggle)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SpellToggle)]
     public sealed class SpellToggle : Packet
     {
         [Key(0)]
@@ -694,7 +694,7 @@ namespace ClientPackets
         }
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ConsignItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ConsignItem)]
     public sealed class ConsignItem : Packet
     {
         [Key(0)]
@@ -705,7 +705,7 @@ namespace ClientPackets
         public MarketPanelType Type;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarketSearch)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarketSearch)]
     public sealed class MarketSearch : Packet
     {
         [Key(0)]
@@ -722,20 +722,20 @@ namespace ClientPackets
         public MarketPanelType MarketType = MarketPanelType.Market;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarketRefresh)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarketRefresh)]
     public sealed class MarketRefresh : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarketPage)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarketPage)]
     public sealed class MarketPage : Packet
     {
         [Key(0)]
         public int Page;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarketBuy)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarketBuy)]
     public sealed class MarketBuy : Packet
     {
         [Key(0)]
@@ -744,35 +744,35 @@ namespace ClientPackets
         public uint BidPrice;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarketSellNow)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarketSellNow)]
     public sealed class MarketSellNow : Packet
     {
         [Key(0)]
         public ulong AuctionID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MarketGetBack)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MarketGetBack)]
     public sealed class MarketGetBack : Packet
     {
         [Key(0)]
         public ulong AuctionID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RequestUserName)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RequestUserName)]
     public sealed class RequestUserName : Packet
     {
         [Key(0)]
         public uint UserID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RequestChatItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RequestChatItem)]
     public sealed class RequestChatItem : Packet
     {
         [Key(0)]
         public ulong ChatItemID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.EditGuildMember)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.EditGuildMember)]
     public sealed class EditGuildMember : Packet
     {
         [Key(0)]
@@ -785,42 +785,42 @@ namespace ClientPackets
         public string RankName = "";
     }
 
-    [MessagePackObject, Route(ClientPacketIds.EditGuildNotice)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.EditGuildNotice)]
     public sealed class EditGuildNotice : Packet
     {
         [Key(0)]
         public List<string> notice = new List<string>();
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GuildInvite)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GuildInvite)]
     public sealed class GuildInvite : Packet
     {
         [Key(0)]
         public bool AcceptInvite;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RequestGuildInfo)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RequestGuildInfo)]
     public sealed class RequestGuildInfo : Packet
     {
         [Key(0)]
         public byte Type;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GuildNameReturn)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GuildNameReturn)]
     public sealed class GuildNameReturn : Packet
     {
         [Key(0)]
         public string Name;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GuildWarReturn)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GuildWarReturn)]
     public sealed class GuildWarReturn : Packet
     {
         [Key(0)]
         public string Name;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GuildStorageGoldChange)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GuildStorageGoldChange)]
     public sealed class GuildStorageGoldChange : Packet
     {
         [Key(0)]
@@ -829,7 +829,7 @@ namespace ClientPackets
         public uint Amount = 0;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GuildStorageItemChange)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GuildStorageItemChange)]
     public sealed class GuildStorageItemChange : Packet
     {
         [Key(0)]
@@ -840,7 +840,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.EquipSlotItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.EquipSlotItem)]
     public sealed class EquipSlotItem : Packet
     {
         [Key(0)]
@@ -855,21 +855,21 @@ namespace ClientPackets
         public ulong ToUniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.FishingCast)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.FishingCast)]
     public sealed class FishingCast : Packet
     {
         [Key(0)]
         public bool CastOut;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.FishingChangeAutocast)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.FishingChangeAutocast)]
     public sealed class FishingChangeAutocast : Packet
     {
         [Key(0)]
         public bool AutoCast;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AcceptQuest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AcceptQuest)]
     public sealed class AcceptQuest : Packet
     {
         [Key(0)]
@@ -878,7 +878,7 @@ namespace ClientPackets
         public int QuestIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.FinishQuest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.FinishQuest)]
     public sealed class FinishQuest : Packet
     {
         [Key(0)]
@@ -887,33 +887,33 @@ namespace ClientPackets
         public int SelectedItemIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AbandonQuest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AbandonQuest)]
     public sealed class AbandonQuest : Packet
     {
         [Key(0)]
         public int QuestIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ShareQuest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ShareQuest)]
     public sealed class ShareQuest : Packet
     {
         [Key(0)]
         public int QuestIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AcceptReincarnation)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AcceptReincarnation)]
     public sealed class AcceptReincarnation : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CancelReincarnation)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CancelReincarnation)]
     public sealed class CancelReincarnation : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CombineItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CombineItem)]
     public sealed class CombineItem : Packet
     {
         [Key(0)]
@@ -924,7 +924,7 @@ namespace ClientPackets
         public ulong IDTo;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AwakeningNeedMaterials)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AwakeningNeedMaterials)]
     public sealed class AwakeningNeedMaterials : Packet
     {
         [Key(0)]
@@ -933,7 +933,7 @@ namespace ClientPackets
         public AwakeType Type;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AwakeningLockedItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AwakeningLockedItem)]
     public sealed class AwakeningLockedItem : Packet
     {
         [Key(0)]
@@ -942,7 +942,7 @@ namespace ClientPackets
         public bool Locked;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Awakening)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Awakening)]
     public sealed class Awakening : Packet
     {
         [Key(0)]
@@ -953,28 +953,28 @@ namespace ClientPackets
         public uint PositionIdx;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DisassembleItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DisassembleItem)]
     public sealed class DisassembleItem : Packet
     {
         [Key(0)]
         public ulong UniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DowngradeAwakening)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DowngradeAwakening)]
     public sealed class DowngradeAwakening : Packet
     {
         [Key(0)]
         public ulong UniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ResetAddedItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ResetAddedItem)]
     public sealed class ResetAddedItem : Packet
     {
         [Key(0)]
         public ulong UniqueID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.SendMail)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.SendMail)]
     public sealed class SendMail : Packet
     {
         [Key(0)]
@@ -989,28 +989,28 @@ namespace ClientPackets
         public bool Stamped;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ReadMail)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ReadMail)]
     public sealed class ReadMail : Packet
     {
         [Key(0)]
         public ulong MailID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CollectParcel)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CollectParcel)]
     public sealed class CollectParcel : Packet
     {
         [Key(0)]
         public ulong MailID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DeleteMail)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DeleteMail)]
     public sealed class DeleteMail : Packet
     {
         [Key(0)]
         public ulong MailID;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.LockMail)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.LockMail)]
     public sealed class LockMail : Packet
     {
         [Key(0)]
@@ -1019,7 +1019,7 @@ namespace ClientPackets
         public bool Lock;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MailLockedItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MailLockedItem)]
     public sealed class MailLockedItem : Packet
     {
         [Key(0)]
@@ -1028,7 +1028,7 @@ namespace ClientPackets
         public bool Locked;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.MailCost)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.MailCost)]
     public sealed class MailCost : Packet
     {
         [Key(0)]
@@ -1039,14 +1039,14 @@ namespace ClientPackets
         public bool Stamped;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RequestIntelligentCreatureUpdates)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RequestIntelligentCreatureUpdates)]
     public sealed class RequestIntelligentCreatureUpdates : Packet
     {
         [Key(0)]
         public bool Update = false;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.UpdateIntelligentCreature)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.UpdateIntelligentCreature)]
     public sealed class UpdateIntelligentCreature : Packet
     {
         [Key(0)]
@@ -1059,7 +1059,7 @@ namespace ClientPackets
         public bool ReleaseMe = false;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.IntelligentCreaturePickup)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.IntelligentCreaturePickup)]
     public sealed class IntelligentCreaturePickup : Packet
     {
         [Key(0)]
@@ -1068,7 +1068,7 @@ namespace ClientPackets
         public Point Location = new Point(0, 0);
     }
 
-    [MessagePackObject, Route(ClientPacketIds.AddFriend)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AddFriend)]
     public sealed class AddFriend : Packet
     {
         [Key(0)]
@@ -1077,21 +1077,21 @@ namespace ClientPackets
         public bool Blocked;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RemoveFriend)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RemoveFriend)]
     public sealed class RemoveFriend : Packet
     {
         [Key(0)]
         public int CharacterIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RefreshFriends)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RefreshFriends)]
     public sealed class RefreshFriends : Packet
     {
 
     }
 
 
-    [MessagePackObject, Route(ClientPacketIds.AddMemo)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.AddMemo)]
     public sealed class AddMemo : Packet
     {
         [Key(0)]
@@ -1100,7 +1100,7 @@ namespace ClientPackets
         public string Memo;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GuildBuffUpdate)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GuildBuffUpdate)]
     public sealed class GuildBuffUpdate : Packet
     {
         [Key(0)]
@@ -1109,7 +1109,7 @@ namespace ClientPackets
         public int Id;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GameshopBuy)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GameshopBuy)]
     public sealed class GameshopBuy : Packet
     {
         [Key(0)]
@@ -1120,7 +1120,7 @@ namespace ClientPackets
         public int PType;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.NPCConfirmInput)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.NPCConfirmInput)]
     public sealed class NPCConfirmInput : Packet
     {
         [Key(0)]
@@ -1131,7 +1131,7 @@ namespace ClientPackets
         public string Value;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ReportIssue)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ReportIssue)]
     public sealed class ReportIssue : Packet
     {
         [Key(0)]
@@ -1144,7 +1144,7 @@ namespace ClientPackets
         public string Message;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GetRanking)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GetRanking)]
     public sealed class GetRanking : Packet
     {
         [Key(0)]
@@ -1155,40 +1155,40 @@ namespace ClientPackets
         public bool OnlineOnly;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.Opendoor)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.Opendoor)]
     public sealed class Opendoor : Packet
     {
         [Key(0)]
         public byte DoorIndex;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.GetRentedItems)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.GetRentedItems)]
     public sealed class GetRentedItems : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ItemRentalRequest)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ItemRentalRequest)]
     public sealed class ItemRentalRequest : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ItemRentalFee)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ItemRentalFee)]
     public sealed class ItemRentalFee : Packet
     {
         [Key(0)]
         public uint Amount;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ItemRentalPeriod)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ItemRentalPeriod)]
     public sealed class ItemRentalPeriod : Packet
     {
         [Key(0)]
         public uint Days;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.DepositRentalItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.DepositRentalItem)]
     public sealed class DepositRentalItem : Packet
     {
         [Key(0)]
@@ -1197,7 +1197,7 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.RetrieveRentalItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.RetrieveRentalItem)]
     public sealed class RetrieveRentalItem : Packet
     {
         [Key(0)]
@@ -1206,25 +1206,25 @@ namespace ClientPackets
         public int To;
     }
 
-    [MessagePackObject, Route(ClientPacketIds.CancelItemRental)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.CancelItemRental)]
     public sealed class CancelItemRental : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ItemRentalLockFee)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ItemRentalLockFee)]
     public sealed class ItemRentalLockFee : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ItemRentalLockItem)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ItemRentalLockItem)]
     public sealed class ItemRentalLockItem : Packet
     {
 
     }
 
-    [MessagePackObject, Route(ClientPacketIds.ConfirmItemRental)]
+    [MessagePackObject, Route((ushort)ClientPacketIds.ConfirmItemRental)]
     public sealed class ConfirmItemRental : Packet
     {
 
