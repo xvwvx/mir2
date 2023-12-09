@@ -1,7 +1,13 @@
-﻿public class Notice
+﻿using MessagePack;
+
+[MessagePackObject]
+public class Notice
 {
+    [Key(0)]
     public string Title = string.Empty;
+    [Key(1)]
     public string Message = string.Empty;
+    [Key(2)]
     public DateTime LastUpdate;
 
     public Notice() { }

@@ -1,12 +1,20 @@
 ﻿using System.Drawing;
+using MessagePack;
 
+[MessagePackObject]
 public class SelectInfo
 {
+    [Key(0)]
     public int Index;
+    [Key(1)]
     public string Name = string.Empty;
+    [Key(2)]
     public ushort Level;
+    [Key(3)]
     public MirClass Class;
+    [Key(4)]
     public MirGender Gender;
+    [Key(5)]
     public DateTime LastAccess;
 
     public SelectInfo() { }
@@ -31,24 +39,37 @@ public class SelectInfo
     }
 }
 
+[MessagePackObject]
 public class Door
 {
+    [Key(0)]
     public byte index;
+    [Key(1)]
     public DoorState DoorState;
+    [Key(2)]
     public byte ImageIndex;
+    [Key(3)]
     public long LastTick;
+    [Key(4)]
     public Point Location;
 }
 
+[MessagePackObject]
 public class RankCharacterInfo
 {
+    [Key(0)]
     public long PlayerId;
+    [Key(1)]
     public string Name;
+    [Key(2)]
     public MirClass Class;
+    [Key(3)]
     public int level;
-
-    public long Experience;//clients shouldnt care about this only server
-    public object info;//again only keep this on server!
+    [Key(4)]
+    public long Experience;
+    [Key(5)]
+    public object info;
+    [Key(6)]
     public DateTime LastUpdated;
 
     public RankCharacterInfo()
@@ -72,9 +93,12 @@ public class RankCharacterInfo
     }
 }
 
+[MessagePackObject]
 public class QuestItemReward
 {
+    [Key(0)]
     public ItemInfo Item;
+    [Key(1)]
     public ushort Count = 1;
 
     public QuestItemReward() { }
@@ -92,9 +116,12 @@ public class QuestItemReward
     }
 }
 
+[MessagePackObject]
 public class WorldMapSetup
 {
+    [Key(0)]
     public bool Enabled;
+    [Key(1)]
     public List<WorldMapIcon> Icons = new List<WorldMapIcon>();
 
     public WorldMapSetup() { }
@@ -115,11 +142,17 @@ public class WorldMapSetup
             Icons[i].Save(writer);
     }
 }
+
+[MessagePackObject]
 public class WorldMapIcon
 {
+    [Key(0)]
     public int ImageIndex;
+    [Key(1)]
     public string Title;
+    [Key(2)]
     public int MapIndex;
+
     public WorldMapIcon() { }
 
     public WorldMapIcon(BinaryReader reader)

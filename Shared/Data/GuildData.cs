@@ -1,8 +1,15 @@
-﻿public class GuildRank
+﻿using MessagePack;
+
+[MessagePackObject]
+public class GuildRank
 {
+    [Key(0)]
     public List<GuildMember> Members = new List<GuildMember>();
+    [Key(1)]
     public string Name = "";
+    [Key(2)]
     public int Index = 0;
+    [Key(3)]
     public GuildRankOptions Options = (GuildRankOptions)0;
 
     public GuildRank() { }
@@ -41,11 +48,18 @@
     }
 }
 
+[MessagePackObject]
 public class GuildStorageItem
 {
+    [Key(0)]
     public UserItem Item;
+    [Key(1)]
     public long UserId = 0;
-    public GuildStorageItem() { }
+
+    public GuildStorageItem()
+    {
+        
+    }
 
     public GuildStorageItem(BinaryReader reader)
     {
@@ -58,14 +72,20 @@ public class GuildStorageItem
         writer.Write(UserId);
     }
 }
-
+[MessagePackObject]
 public class GuildMember
 {
+    [Key(0)]
     public string Name = "";
+    [Key(1)]
     public int Id;
+    [Key(2)]
     public object Player;
+    [Key(3)]
     public DateTime LastLogin;
+    [Key(4)]
     public bool hasvoted;
+    [Key(5)]
     public bool Online;
 
     public GuildMember() { }
@@ -89,16 +109,24 @@ public class GuildMember
     }
 }
 
+[MessagePackObject]
 public class GuildBuffInfo
 {
+    [Key(0)]
     public int Id;
+    [Key(1)]
     public int Icon = 0;
+    [Key(2)]
     public string Name = "";
+    [Key(3)]
     public byte LevelRequirement;
+    [Key(4)]
     public byte PointsRequirement = 1;
+    [Key(5)]
     public int TimeLimit;
+    [Key(6)]
     public int ActivationCost;
-
+    [Key(7)]
     public Stats Stats;
 
     public GuildBuffInfo() 
@@ -214,13 +242,19 @@ public class GuildBuffInfo
     }
 }
 
+[MessagePackObject]
 public class GuildBuff
 {
+    [Key(0)]
     public int Id;
+    [Key(1)]
     public GuildBuffInfo Info;
+    [Key(2)]
     public bool Active = false;
+    [Key(3)]
     public int ActiveTimeRemaining;
 
+    [IgnoreMember]
     public bool UsingGuildSkillIcon
     {
         get { return Info != null && Info.Icon < 1000; }
