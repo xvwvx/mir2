@@ -65,11 +65,11 @@ public class RankCharacterInfo
     public MirClass Class;
     [Key(3)]
     public int level;
-    [Key(4)]
+    [IgnoreMember]
     public long Experience;
-    [Key(5)]
+    [IgnoreMember]
     public object info;
-    [Key(6)]
+    [IgnoreMember]
     public DateTime LastUpdated;
 
     public RankCharacterInfo()

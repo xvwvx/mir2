@@ -79,7 +79,7 @@ public class GuildMember
     public string Name = "";
     [Key(1)]
     public int Id;
-    [Key(2)]
+    [IgnoreMember]
     public object Player;
     [Key(3)]
     public DateTime LastLogin;
@@ -247,7 +247,7 @@ public class GuildBuff
 {
     [Key(0)]
     public int Id;
-    [Key(1)]
+    [IgnoreMember]
     public GuildBuffInfo Info;
     [Key(2)]
     public bool Active = false;

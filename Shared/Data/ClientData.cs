@@ -34,7 +34,7 @@ public class ClientMagic
     public byte Range;
     [Key(14)]
     public ushort Experience;
-    [Key(15)]
+    [IgnoreMember]
     public bool IsTempSpell;
     [Key(16)]
     public long CastTime;
@@ -593,7 +593,7 @@ public class ClientQuestProgress
 {
     [Key(0)]
     public int Id;
-    [Key(1)]
+    [IgnoreMember]
     public ClientQuestInfo QuestInfo;
     [Key(2)]
     public List<string> TaskList = new List<string>();
@@ -649,7 +649,7 @@ public class ClientBuff
 {
     [Key(0)]
     public BuffType Type;
-    [Key(1)]
+    [IgnoreMember]
     public string Caster;
     [Key(2)]
     public bool Visible;

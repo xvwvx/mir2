@@ -7,7 +7,7 @@ public class Notice
     public string Title = string.Empty;
     [Key(1)]
     public string Message = string.Empty;
-    [Key(2)]
+    [IgnoreMember]
     public DateTime LastUpdate;
 
     public Notice() { }
