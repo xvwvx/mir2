@@ -1,25 +1,27 @@
-﻿using MessagePack;
+﻿using MemoryPack;
 
-[MessagePackObject]
-public class IntelligentCreatureRules
+
+[MemoryPackable]
+public partial class IntelligentCreatureRules
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int MinimalFullness = 1;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public bool MousePickupEnabled = false;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public int MousePickupRange = 0;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public bool AutoPickupEnabled = false;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public int AutoPickupRange = 0;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public bool SemiAutoPickupEnabled = false;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public int SemiAutoPickupRange = 0;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public bool CanProduceBlackStone = false;
-
+    
+    [MemoryPackConstructor]
     public IntelligentCreatureRules()
     {
     }
@@ -51,30 +53,31 @@ public class IntelligentCreatureRules
     }
 }
 
-[MessagePackObject]
-public class IntelligentCreatureItemFilter
+[MemoryPackable]
+public partial class IntelligentCreatureItemFilter
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public bool PetPickupAll = true;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public bool PetPickupGold = false;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public bool PetPickupWeapons = false;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public bool PetPickupArmours = false;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public bool PetPickupHelmets = false;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public bool PetPickupBoots = false;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public bool PetPickupBelts = false;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public bool PetPickupAccessories = false;
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public bool PetPickupOthers = false;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public ItemGrade PickupGrade = ItemGrade.None;
-
+    
+    [MemoryPackConstructor]
     public IntelligentCreatureItemFilter()
     {
     }
@@ -175,33 +178,34 @@ public class IntelligentCreatureItemFilter
     }
 }
 
-[MessagePackObject]
-public class ClientIntelligentCreature
+[MemoryPackable]
+public partial class ClientIntelligentCreature
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public IntelligentCreatureType PetType;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public int Icon;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public string CustomName;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public int Fullness;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public int SlotIndex;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public DateTime Expire;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public long BlackstoneTime;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public long MaintainFoodTime;
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public IntelligentCreaturePickupMode petMode = IntelligentCreaturePickupMode.SemiAutomatic;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public IntelligentCreatureRules CreatureRules;
-    [Key(10)]
+    [MemoryPackOrder(10)]
     public IntelligentCreatureItemFilter Filter;
 
-
+    
+    [MemoryPackConstructor]
     public ClientIntelligentCreature()
     {
     }

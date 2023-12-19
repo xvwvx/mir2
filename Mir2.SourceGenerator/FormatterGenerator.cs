@@ -18,7 +18,7 @@ public class FormatterGenerator : IIncrementalGenerator
         {
             var typeDeclarationSyntax = (TypeDeclarationSyntax)ctx.Node;
             var attributeLists = typeDeclarationSyntax.AttributeLists;
-            if (attributeLists.FindAttributeSyntax("MessagePackObject") != null)
+            if (attributeLists.FindAttributeSyntax("MemoryPackable") != null)
             {
                 return typeDeclarationSyntax;
             }
@@ -105,7 +105,7 @@ public class FormatterGenerator : IIncrementalGenerator
 
         var str = $$"""
                     using System.Buffers;
-                    using MessagePack;
+                    
                     using MessagePack.Formatters;
                     using System.Collections.Generic;
 

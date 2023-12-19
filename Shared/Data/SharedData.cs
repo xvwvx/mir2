@@ -1,22 +1,24 @@
 ﻿using System.Drawing;
-using MessagePack;
+using MemoryPack;
 
-[MessagePackObject]
-public class SelectInfo
+
+[MemoryPackable]
+public partial class SelectInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Index;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Name = string.Empty;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public ushort Level;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public MirClass Class;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public MirGender Gender;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public DateTime LastAccess;
-
+    
+    [MemoryPackConstructor]
     public SelectInfo() { }
 
     public SelectInfo(BinaryReader reader)
@@ -39,39 +41,46 @@ public class SelectInfo
     }
 }
 
-[MessagePackObject]
-public class Door
+[MemoryPackable]
+public partial class Door
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public byte index;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public DoorState DoorState;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public byte ImageIndex;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public long LastTick;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public Point Location;
+
+    [MemoryPackConstructor]
+    public Door()
+    {
+        
+    }
 }
 
-[MessagePackObject]
-public class RankCharacterInfo
+[MemoryPackable]
+public partial class RankCharacterInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public long PlayerId;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Name;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public MirClass Class;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public int level;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public long Experience;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public object info;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public DateTime LastUpdated;
-
+    
+    [MemoryPackConstructor]
     public RankCharacterInfo()
     {
 
@@ -93,14 +102,15 @@ public class RankCharacterInfo
     }
 }
 
-[MessagePackObject]
-public class QuestItemReward
+[MemoryPackable]
+public partial class QuestItemReward
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public ItemInfo Item;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public ushort Count = 1;
-
+    
+    [MemoryPackConstructor]
     public QuestItemReward() { }
 
     public QuestItemReward(BinaryReader reader)
@@ -116,14 +126,15 @@ public class QuestItemReward
     }
 }
 
-[MessagePackObject]
-public class WorldMapSetup
+[MemoryPackable]
+public partial class WorldMapSetup
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public bool Enabled;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public List<WorldMapIcon> Icons = new List<WorldMapIcon>();
-
+    
+    [MemoryPackConstructor]
     public WorldMapSetup() { }
 
     public WorldMapSetup(BinaryReader reader)
@@ -143,16 +154,17 @@ public class WorldMapSetup
     }
 }
 
-[MessagePackObject]
-public class WorldMapIcon
+[MemoryPackable]
+public partial class WorldMapIcon
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int ImageIndex;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Title;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public int MapIndex;
-
+    
+    [MemoryPackConstructor]
     public WorldMapIcon() { }
 
     public WorldMapIcon(BinaryReader reader)

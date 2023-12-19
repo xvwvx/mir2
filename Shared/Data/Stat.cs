@@ -1,9 +1,6 @@
-﻿
-using MessagePack;
-using Shared;
+﻿using MemoryPack;
 
-[MessagePackFormatter(typeof(StatsFormatter))]
-public sealed class Stats : IEquatable<Stats>
+public sealed partial class Stats : IEquatable<Stats>
 {
     public SortedDictionary<Stat, int> Values { get; set; } = new SortedDictionary<Stat, int>();
 
@@ -30,7 +27,8 @@ public sealed class Stats : IEquatable<Stats>
             Values[stat] = value;
         }
     }
-
+    
+    [MemoryPackConstructor]
     public Stats() { }
 
     public Stats(Stats stats)
@@ -74,7 +72,8 @@ public sealed class Stats : IEquatable<Stats>
         if (Values.Count != other.Values.Count) return false;
 
         foreach (KeyValuePair<Stat, int> value in Values)
-            if (other[value.Key] != value.Value) return false;
+            if (other[value.Key] != value.Value)
+                return false;
 
         return true;
     }

@@ -1,15 +1,17 @@
-﻿using MessagePack;
+﻿using MemoryPack;
 
-[MessagePackObject]
-public class Notice
+
+[MemoryPackable]
+public partial class Notice
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public string Title = string.Empty;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Message = string.Empty;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public DateTime LastUpdate;
-
+    
+    [MemoryPackConstructor]
     public Notice() { }
 
     public Notice(BinaryReader reader)

@@ -1,15 +1,16 @@
-﻿using MessagePack;
+﻿using MemoryPack;
 
-[MessagePackObject]
-public class BaseStats
+[MemoryPackable]
+public partial class BaseStats
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public MirClass Job;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public List<BaseStat> Stats = new List<BaseStat>();
-    [Key(2)]
+    [MemoryPackOrder(2), MemoryPackAllowSerialize]
     public Stats Caps = new Stats();
 
+    [MemoryPackConstructor]
     public BaseStats()
     {
     }
@@ -145,22 +146,23 @@ public class BaseStats
     }
 }
 
-[MessagePackObject]
-public class BaseStat
+[MemoryPackable]
+public partial class BaseStat
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public StatFormula FormulaType;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public Stat Type;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public int Base;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public float Gain;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public float GainRate;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public int Max;
     
+    [MemoryPackConstructor]
     public BaseStat()
     {
         

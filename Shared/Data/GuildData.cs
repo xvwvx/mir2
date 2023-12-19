@@ -1,17 +1,19 @@
-﻿using MessagePack;
+﻿using MemoryPack;
 
-[MessagePackObject]
-public class GuildRank
+
+[MemoryPackable]
+public partial class GuildRank
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public List<GuildMember> Members = new List<GuildMember>();
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Name = "";
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public int Index = 0;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public GuildRankOptions Options = (GuildRankOptions)0;
-
+    
+    [MemoryPackConstructor]
     public GuildRank() { }
 
     public GuildRank(BinaryReader reader, bool offline = false)
@@ -48,14 +50,15 @@ public class GuildRank
     }
 }
 
-[MessagePackObject]
-public class GuildStorageItem
+[MemoryPackable]
+public partial class GuildStorageItem
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public UserItem Item;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public long UserId = 0;
-
+    
+    [MemoryPackConstructor]
     public GuildStorageItem()
     {
         
@@ -72,22 +75,23 @@ public class GuildStorageItem
         writer.Write(UserId);
     }
 }
-[MessagePackObject]
-public class GuildMember
+[MemoryPackable]
+public partial class GuildMember
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public string Name = "";
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public int Id;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public object Player;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public DateTime LastLogin;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public bool hasvoted;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public bool Online;
-
+    
+    [MemoryPackConstructor]
     public GuildMember() { }
 
     public GuildMember(BinaryReader reader, bool offline = false)
@@ -109,26 +113,27 @@ public class GuildMember
     }
 }
 
-[MessagePackObject]
-public class GuildBuffInfo
+[MemoryPackable]
+public partial class GuildBuffInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Id;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public int Icon = 0;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public string Name = "";
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public byte LevelRequirement;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public byte PointsRequirement = 1;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public int TimeLimit;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public int ActivationCost;
-    [Key(7)]
+    [MemoryPackOrder(7), MemoryPackAllowSerialize]
     public Stats Stats;
-
+    
+    [MemoryPackConstructor]
     public GuildBuffInfo() 
     {
         Stats = new Stats();
@@ -242,24 +247,25 @@ public class GuildBuffInfo
     }
 }
 
-[MessagePackObject]
-public class GuildBuff
+[MemoryPackable]
+public partial class GuildBuff
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Id;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public GuildBuffInfo Info;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public bool Active = false;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public int ActiveTimeRemaining;
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool UsingGuildSkillIcon
     {
         get { return Info != null && Info.Icon < 1000; }
     }
-
+    
+    [MemoryPackConstructor]
     public GuildBuff() { }
 
     public GuildBuff(BinaryReader reader)
@@ -277,7 +283,7 @@ public class GuildBuff
 }
 
 //outdated but cant delete it or old db's wont load
-public class GuildBuffOld
+public partial class GuildBuffOld
 {
     public GuildBuffOld() { }
 

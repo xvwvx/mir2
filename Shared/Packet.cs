@@ -1,16 +1,12 @@
 ﻿using System.Buffers;
-using System.Collections.Immutable;
 using System.Reflection;
-using MessagePack;
-using MessagePack.Formatters;
-using MessagePack.Resolvers;
+using MemoryPack;
 using Shared;
 using C = ClientPackets;
 using S = ServerPackets;
 
 
-[MessagePackObject]
-public abstract class Packet
+public abstract partial class Packet
 {
     private static readonly Dictionary<ushort, Type> IdsMap;
     private static readonly Dictionary<Type, ushort> TypeMap;
@@ -34,24 +30,16 @@ public abstract class Packet
         }
         IdsMap = idsMap;
         TypeMap = typeMap;
+        
+        MemoryPackFormatterProvider.Register(new StatsFormatter());
+        MemoryPackFormatterProvider.Register(new ColorFormatter());
+        MemoryPackFormatterProvider.Register(new PointFormatter());
     }
 
-    private static readonly MessagePackSerializerOptions Options = MessagePackSerializerOptions.Standard.WithResolver(
-        CompositeResolver.Create(
-            new IMessagePackFormatter[]
-            {
-                new MessagePackFormatter(), new PointMessagePackFormatter(),
-            },
-            new IFormatterResolver[]
-            {
-                GeneratedResolver.Instance,
-                StandardResolver.Instance,
-            }));
-
     public static bool IsServer;
-    [IgnoreMember] public virtual bool Observable => true;
+    [MemoryPackIgnore] public virtual bool Observable => true;
 
-    [IgnoreMember] public short Index { get; private set; }
+    [MemoryPackIgnore] public short Index { get; private set; }
 
     private static uint _messageIndex;
     private static readonly Dictionary<uint, ushort> _reqIds = new();
@@ -83,7 +71,7 @@ public abstract class Packet
         }
 
         var type = IdsMap[routeId];
-        var p = (Packet)MessagePackSerializer.Deserialize(type, message.Data, Options);
+        var p = (Packet)MemoryPackSerializer.Deserialize(type, message.Data);
         p.Index = (short)routeId;
 
         var time = DateTime.Now.ToString("hh:mm:ss.fff");
@@ -99,7 +87,7 @@ public abstract class Packet
     {
         Index = (short)TypeMap[GetType()];
 
-        var data = MessagePackSerializer.Serialize(GetType(), this, Options);
+        var data = MemoryPackSerializer.Serialize(GetType(), this);
 
         uint messageId = 0;
         var routeId = (ushort)Index;

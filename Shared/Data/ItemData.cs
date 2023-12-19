@@ -1,93 +1,94 @@
 ﻿using System.Text.RegularExpressions;
-using MessagePack;
+using MemoryPack;
 
-[MessagePackObject]
-public class ItemInfo
+
+[MemoryPackable]
+public partial class ItemInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Index;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Name = string.Empty;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public ItemType Type;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public ItemGrade Grade;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public RequiredType RequiredType = RequiredType.Level;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public RequiredClass RequiredClass = RequiredClass.None;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public RequiredGender RequiredGender = RequiredGender.None;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public ItemSet Set;
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public short Shape;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public byte Weight;
-    [Key(10)]
+    [MemoryPackOrder(10)]
     public byte Light;
-    [Key(11)]
+    [MemoryPackOrder(11)]
     public byte RequiredAmount;
-    [Key(12)]
+    [MemoryPackOrder(12)]
     public ushort Image;
-    [Key(13)]
+    [MemoryPackOrder(13)]
     public ushort Durability;
-    [Key(14)]
+    [MemoryPackOrder(14)]
     public uint Price;
-    [Key(15)]
+    [MemoryPackOrder(15)]
     public ushort StackSize = 1;
-    [Key(16)]
+    [MemoryPackOrder(16)]
     public bool StartItem;
-    [Key(17)]
+    [MemoryPackOrder(17)]
     public byte Effect;
 
-    [Key(18)]
+    [MemoryPackOrder(18)]
     public byte Flags;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool NeedIdentify;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool ShowGroupPickup;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool ClassBased;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool LevelBased;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool CanMine;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool GlobalDropNotify;
 
-    [Key(19)]
+    [MemoryPackOrder(19)]
     public bool CanFastRun;
-    [Key(20)]
+    [MemoryPackOrder(20)]
     public bool CanAwakening;
-    [Key(21)]
+    [MemoryPackOrder(21)]
     public BindMode Bind = BindMode.None;
-    [Key(22)]
+    [MemoryPackOrder(22)]
     public SpecialItemMode Unique = SpecialItemMode.None;
-    [Key(23)]
+    [MemoryPackOrder(23)]
     public byte RandomStatsId;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public RandomItemStat RandomStats;
-    [Key(24)]
+    [MemoryPackOrder(24)]
     public string ToolTip = string.Empty;
-    [Key(25)]
+    [MemoryPackOrder(25)]
     public byte Slots;
-    [Key(26)]
+    [MemoryPackOrder(26), MemoryPackAllowSerialize]
     public Stats Stats;
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool IsConsumable
     {
         get { return Type == ItemType.Potion || Type == ItemType.Scroll || Type == ItemType.Food || Type == ItemType.Transform || Type == ItemType.Script || Type == ItemType.SealedHero; }
     }
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool IsFishingRod
     {
         get { return Globals.FishingRodShapes.Contains(Shape); }
     }
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public string FriendlyName
     {
         get
@@ -99,7 +100,8 @@ public class ItemInfo
             return temp;
         }
     }
-
+    
+    [MemoryPackConstructor]
     public ItemInfo()
     {
         Stats = new Stats();
@@ -311,79 +313,79 @@ public class ItemInfo
 
 }
 
-[MessagePackObject]
-public class UserItem
+[MemoryPackable]
+public partial class UserItem
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public ulong UniqueID;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public int ItemIndex;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public ItemInfo Info;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public ushort CurrentDura;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public ushort MaxDura;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public ushort Count = 1;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public ushort GemCount = 0;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public RefinedValue RefinedValue = RefinedValue.None;
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public byte RefineAdded = 0;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public int RefineSuccessChance = 0;
-    [Key(10)]
+    [MemoryPackOrder(10)]
     public bool DuraChanged;
-    [Key(11)]
+    [MemoryPackOrder(11)]
     public int SoulBoundId = -1;
     
-    [Key(12)]
+    [MemoryPackOrder(12)]
     public byte Flags;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool Identified = false;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool Cursed = false;
     
-    [Key(13)]
+    [MemoryPackOrder(13)]
     public int WeddingRing = -1;
-    [Key(14)]
+    [MemoryPackOrder(14)]
     public UserItem[] Slots = new UserItem[0];
-    [Key(15)]
+    [MemoryPackOrder(15)]
     public DateTime BuybackExpiryDate;
-    [Key(16)]
+    [MemoryPackOrder(16)]
     public ExpireInfo ExpireInfo;
-    [Key(17)]
+    [MemoryPackOrder(17)]
     public RentalInformation RentalInformation;
-    [Key(18)]
+    [MemoryPackOrder(18)]
     public SealedInfo SealedInfo;
-    [Key(19)]
+    [MemoryPackOrder(19)]
     public bool IsShopItem;
-    [Key(20)]
+    [MemoryPackOrder(20)]
     public Awake Awake = new Awake();
-    [Key(21)]
+    [MemoryPackOrder(21), MemoryPackAllowSerialize]
     public Stats AddedStats;
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool IsAdded
     {
         get { return AddedStats.Count > 0 || Slots.Length > Info.Slots; }
     }
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public int Weight
     {
         get { return Info.Type == ItemType.Amulet ? Info.Weight : Info.Weight * Count; }
     }
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public string FriendlyName
     {
         get { return Count > 1 ? string.Format("{0} ({1})", Info.FriendlyName, Count) : Info.FriendlyName; }
     }
 
-    [Key(22)]
+    [MemoryPackOrder(22)]
     public bool GMMade { get; set; }
 
     public UserItem(ItemInfo info)
@@ -395,7 +397,8 @@ public class UserItem
 
         SetSlotSize();
     }
-
+    
+    [MemoryPackConstructor]
     public UserItem()
     {
     }
@@ -704,7 +707,7 @@ public class UserItem
         Array.Resize(ref Slots, size ?? Info.Slots);
     }
 
-    [Key(26)]
+    [MemoryPackOrder(26)]
     public ushort Image
     {
         get
@@ -776,12 +779,13 @@ public class UserItem
 
 }
 
-[MessagePackObject]
-public class ExpireInfo
+[MemoryPackable]
+public partial class ExpireInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public DateTime ExpiryDate;
-
+    
+    [MemoryPackConstructor]
     public ExpireInfo()
     {
     }
@@ -797,14 +801,15 @@ public class ExpireInfo
     }
 }
 
-[MessagePackObject]
-public class SealedInfo
+[MemoryPackable]
+public partial class SealedInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public DateTime ExpiryDate;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public DateTime NextSealDate;
-
+    
+    [MemoryPackConstructor]
     public SealedInfo()
     {
     }
@@ -826,18 +831,19 @@ public class SealedInfo
     }
 }
 
-[MessagePackObject]
-public class RentalInformation
+[MemoryPackable]
+public partial class RentalInformation
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public string OwnerName;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public BindMode BindingFlags = BindMode.None;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public DateTime ExpiryDate;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public bool RentalLocked;
-
+    
+    [MemoryPackConstructor]
     public RentalInformation()
     {
     }
@@ -859,40 +865,41 @@ public class RentalInformation
     }
 }
 
-[MessagePackObject]
-public class GameShopItem
+[MemoryPackable]
+public partial class GameShopItem
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int ItemIndex;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public int GIndex;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public ItemInfo Info;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public uint GoldPrice = 0;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public uint CreditPrice = 0;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public ushort Count = 1;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public string Class = "";
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public string Category = "";
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public int Stock = 0;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public bool iStock = false;
-    [Key(10)]
+    [MemoryPackOrder(10)]
     public bool Deal = false;
-    [Key(11)]
+    [MemoryPackOrder(11)]
     public bool TopItem = false;
-    [Key(12)]
+    [MemoryPackOrder(12)]
     public DateTime Date;
-    [Key(13)]
+    [MemoryPackOrder(13)]
     public bool CanBuyGold = false;
-    [Key(14)]
+    [MemoryPackOrder(14)]
     public bool CanBuyCredit = false;
-
+    
+    [MemoryPackConstructor]
     public GameShopItem()
     {
     }
@@ -970,8 +977,8 @@ public class GameShopItem
 
 }
 
-[MessagePackObject]
-public class Awake
+[MemoryPackable]
+public partial class Awake
 {
     //Awake Option
     public static byte AwakeSuccessRate = 70;
@@ -984,11 +991,12 @@ public class Awake
     public static float[] AwakeMaterialRate = new float[4] { 1.0F, 1.0F, 1.0F, 1.0F };
     public static byte[] AwakeChanceMax = new byte[4] { 1, 2, 3, 4 };
     public static List<List<byte>[]> AwakeMaterials = new List<List<byte>[]>();
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public AwakeType Type = AwakeType.None;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public List<byte> listAwake = new List<byte>();
-
+    
+    [MemoryPackConstructor]
     public Awake()
     {
     }
@@ -1224,18 +1232,19 @@ public class Awake
     }
 }
 
-[MessagePackObject]
-public class ItemRentalInformation
+[MemoryPackable]
+public partial class ItemRentalInformation
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public ulong ItemId;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string ItemName;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public string RentingPlayerName;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public DateTime ItemReturnDate;
-
+    
+    [MemoryPackConstructor]
     public ItemRentalInformation()
     {
     }
@@ -1258,7 +1267,7 @@ public class ItemRentalInformation
 }
 
 
-public class ItemSets
+public partial class ItemSets
 {
     public ItemSet Set;
     public List<ItemType> Type;
@@ -1319,7 +1328,7 @@ public class ItemSets
     }
 }
 
-public class RandomItemStat
+public partial class RandomItemStat
 {
     public byte MaxDuraChance, MaxDuraStatChance, MaxDuraMaxStat;
     public byte MaxAcChance, MaxAcStatChance, MaxAcMaxStat, MaxMacChance, MaxMacStatChance, MaxMacMaxStat, MaxDcChance, MaxDcStatChance, MaxDcMaxStat, MaxMcChance, MaxMcStatChance, MaxMcMaxStat, MaxScChance, MaxScStatChance, MaxScMaxStat;
@@ -1572,28 +1581,29 @@ public class RandomItemStat
     }
 }
 
-[MessagePackObject]
-public class ChatItem
+[MemoryPackable]
+public partial class ChatItem
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public ulong UniqueID;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Title;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public MirGridType Grid;
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public string RegexInternalName
     {
         get { return $"<{Title.Replace("(", "\\(").Replace(")", "\\)")}>"; }
     }
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public string InternalName
     {
         get { return $"<{Title}/{UniqueID}>"; }
     }
-
+    
+    [MemoryPackConstructor]
     public ChatItem()
     {
     }

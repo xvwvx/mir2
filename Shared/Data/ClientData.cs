@@ -1,46 +1,48 @@
 ﻿using System.Drawing;
-using MessagePack;
+using MemoryPack;
 
-[MessagePackObject]
-public class ClientMagic
+
+[MemoryPackable]
+public partial class ClientMagic
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public string Name;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public Spell Spell;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public byte BaseCost;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public byte LevelCost;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public byte Icon;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public byte Level1;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public byte Level2;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public byte Level3;
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public ushort Need1;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public ushort Need2;
-    [Key(10)]
+    [MemoryPackOrder(10)]
     public ushort Need3;
-    [Key(11)]
+    [MemoryPackOrder(11)]
     public byte Level;
-    [Key(12)]
+    [MemoryPackOrder(12)]
     public byte Key;
-    [Key(13)]
+    [MemoryPackOrder(13)]
     public byte Range;
-    [Key(14)]
+    [MemoryPackOrder(14)]
     public ushort Experience;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool IsTempSpell;
-    [Key(16)]
+    [MemoryPackOrder(16)]
     public long CastTime;
-    [Key(17)]
+    [MemoryPackOrder(17)]
     public long Delay;
 
+    [MemoryPackConstructor]
     public ClientMagic() { }
 
     public ClientMagic(BinaryReader reader)
@@ -95,20 +97,21 @@ public class ClientMagic
 
 }
 
-[MessagePackObject]
-public class ClientRecipeInfo
+[MemoryPackable]
+public partial class ClientRecipeInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public uint Gold;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public byte Chance;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public UserItem Item;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public List<UserItem> Tools = new List<UserItem>();
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public List<UserItem> Ingredients = new List<UserItem>();
-
+    
+    [MemoryPackConstructor]
     public ClientRecipeInfo() { }
 
 
@@ -152,20 +155,21 @@ public class ClientRecipeInfo
     }
 }
 
-[MessagePackObject]
-public class ClientFriend
+[MemoryPackable]
+public partial class ClientFriend
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Index;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Name;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public string Memo = "";
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public bool Blocked;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public bool Online;
 
+    [MemoryPackConstructor]
     public ClientFriend() { }
 
     public ClientFriend(BinaryReader reader)
@@ -189,30 +193,31 @@ public class ClientFriend
     }
 }
 
-[MessagePackObject]
-public class ClientMail
+[MemoryPackable]
+public partial class ClientMail
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public ulong MailID;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string SenderName;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public string Message;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public bool Opened;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public bool Locked;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public bool CanReply;
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public bool Collected;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public DateTime DateSent;
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public uint Gold;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public List<UserItem> Items = new List<UserItem>();
 
+    [MemoryPackConstructor]
     public ClientMail() { }
 
     public ClientMail(BinaryReader reader)
@@ -254,22 +259,23 @@ public class ClientMail
     }
 }
 
-[MessagePackObject]
-public class ClientAuction
+[MemoryPackable]
+public partial class ClientAuction
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public ulong AuctionID;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public UserItem Item;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public string Seller = string.Empty;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public uint Price;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public DateTime ConsignmentDate = DateTime.MinValue;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public MarketItemType ItemType;
 
+    [MemoryPackConstructor]
     public ClientAuction() { }
 
     public ClientAuction(BinaryReader reader)
@@ -292,18 +298,19 @@ public class ClientAuction
     }
 }
 
-[MessagePackObject]
-public class ClientMovementInfo
+[MemoryPackable]
+public partial class ClientMovementInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Destination;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Title;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public Point Location;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public int Icon;
 
+    [MemoryPackConstructor]
     public ClientMovementInfo() { }
 
     public ClientMovementInfo(BinaryReader reader)
@@ -324,20 +331,21 @@ public class ClientMovementInfo
     }
 }
 
-[MessagePackObject]
-public class ClientNPCInfo
+[MemoryPackable]
+public partial class ClientNPCInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public uint ObjectID;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Name;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public Point Location;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public int Icon;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public bool CanTeleportTo;
 
+    [MemoryPackConstructor]
     public ClientNPCInfo() { }
 
     public ClientNPCInfo(BinaryReader reader)
@@ -360,22 +368,23 @@ public class ClientNPCInfo
     }
 }
 
-[MessagePackObject]
-public class ClientMapInfo
+[MemoryPackable]
+public partial class ClientMapInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Width;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public int Height;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public int BigMap;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public string Title;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public List<ClientMovementInfo> Movements = new List<ClientMovementInfo>();
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public List<ClientNPCInfo> NPCs = new List<ClientNPCInfo>();
 
+    [MemoryPackConstructor]
     public ClientMapInfo() { }
 
     public ClientMapInfo(BinaryReader reader)
@@ -407,56 +416,57 @@ public class ClientMapInfo
     }
 }
 
-[MessagePackObject]
-public class ClientQuestInfo
+[MemoryPackable]
+public partial class ClientQuestInfo
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Index;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public uint NPCIndex;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public string Name;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public string Group;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public List<string> Description = new List<string>();
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public List<string> TaskDescription = new List<string>();
-    [Key(6)]
+    [MemoryPackOrder(6)]
     public List<string> ReturnDescription = new List<string>();
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public List<string> CompletionDescription = new List<string>();
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public int MinLevelNeeded;
-    [Key(9)]
+    [MemoryPackOrder(9)]
     public int MaxLevelNeeded;
-    [Key(10)]
+    [MemoryPackOrder(10)]
     public int QuestNeeded;
-    [Key(11)]
+    [MemoryPackOrder(11)]
     public RequiredClass ClassNeeded;
-    [Key(12)]
+    [MemoryPackOrder(12)]
     public QuestType Type;
-    [Key(13)]
+    [MemoryPackOrder(13)]
     public int TimeLimitInSeconds = 0;
-    [Key(14)]
+    [MemoryPackOrder(14)]
     public uint RewardGold;
-    [Key(15)]
+    [MemoryPackOrder(15)]
     public uint RewardExp;
-    [Key(16)]
+    [MemoryPackOrder(16)]
     public uint RewardCredit;
-    [Key(17)]
+    [MemoryPackOrder(17)]
     public List<QuestItemReward> RewardsFixedItem = new List<QuestItemReward>();
-    [Key(18)]
+    [MemoryPackOrder(18)]
     public List<QuestItemReward> RewardsSelectItem = new List<QuestItemReward>();
-    [Key(19)]
+    [MemoryPackOrder(19)]
     public uint FinishNPCIndex;
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public bool SameFinishNPC
     {
         get { return NPCIndex == FinishNPCIndex; }
     }
 
+    [MemoryPackConstructor]
     public ClientQuestInfo() { }
 
     public ClientQuestInfo(BinaryReader reader)
@@ -588,23 +598,23 @@ public class ClientQuestInfo
     }
 }
 
-[MessagePackObject]
-public class ClientQuestProgress
+[MemoryPackable]
+public partial class ClientQuestProgress
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Id;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public ClientQuestInfo QuestInfo;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public List<string> TaskList = new List<string>();
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public bool Taken;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public bool Completed;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public bool New;
 
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public QuestIcon Icon
     {
         get
@@ -613,6 +623,7 @@ public class ClientQuestProgress
         }
     }
 
+    [MemoryPackConstructor]
     public ClientQuestProgress() { }
 
     public ClientQuestProgress(BinaryReader reader)
@@ -644,28 +655,29 @@ public class ClientQuestProgress
     }
 }
 
-[MessagePackObject]
-public class ClientBuff
+[MemoryPackable]
+public partial class ClientBuff
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public BuffType Type;
-    [IgnoreMember]
+    [MemoryPackIgnore]
     public string Caster;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public bool Visible;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public uint ObjectID;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public long ExpireTime;
-    [Key(5)]
+    [MemoryPackOrder(5)]
     public bool Infinite;
-    [Key(6)]
+    [MemoryPackOrder(6), MemoryPackAllowSerialize]
     public Stats Stats;
-    [Key(7)]
+    [MemoryPackOrder(7)]
     public bool Paused;
-    [Key(8)]
+    [MemoryPackOrder(8)]
     public int[] Values;
 
+    [MemoryPackConstructor]
     public ClientBuff()
     {
         Stats = new Stats();
@@ -713,20 +725,21 @@ public class ClientBuff
     }
 }
 
-[MessagePackObject]
-public class ClientHeroInformation
+[MemoryPackable]
+public partial class ClientHeroInformation
 {
-    [Key(0)]
+    [MemoryPackOrder(0)]
     public int Index;
-    [Key(1)]
+    [MemoryPackOrder(1)]
     public string Name;
-    [Key(2)]
+    [MemoryPackOrder(2)]
     public ushort Level;
-    [Key(3)]
+    [MemoryPackOrder(3)]
     public MirClass Class;
-    [Key(4)]
+    [MemoryPackOrder(4)]
     public MirGender Gender;
 
+    [MemoryPackConstructor]
     public ClientHeroInformation() { }
 
     public ClientHeroInformation(BinaryReader reader)
