@@ -383,6 +383,8 @@ public class UserItem
         get { return Count > 1 ? string.Format("{0} ({1})", Info.FriendlyName, Count) : Info.FriendlyName; }
     }
 
+    public bool GMMade { get; set; }
+
     public UserItem(ItemInfo info)
     {
         SoulBoundId = -1;
@@ -512,6 +514,11 @@ public class UserItem
         {
             SealedInfo = new SealedInfo(reader, version, customVersion);
         }
+
+        if (version > 107)
+        {
+            GMMade = reader.ReadBoolean();
+        }
     }
 
     public void Save(BinaryWriter writer)
@@ -561,6 +568,8 @@ public class UserItem
 
         writer.Write(SealedInfo != null);
         SealedInfo?.Save(writer);
+
+        writer.Write(GMMade);
     }
 
     public int GetTotal(Stat type)
@@ -757,7 +766,8 @@ public class UserItem
             RentalInformation = RentalInformation,
             SealedInfo = SealedInfo,
 
-            IsShopItem = IsShopItem
+            IsShopItem = IsShopItem,
+            GMMade = GMMade
         };
 
         return item;
