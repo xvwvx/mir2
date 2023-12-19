@@ -383,6 +383,7 @@ public class UserItem
         get { return Count > 1 ? string.Format("{0} ({1})", Info.FriendlyName, Count) : Info.FriendlyName; }
     }
 
+    [Key(22)]
     public bool GMMade { get; set; }
 
     public UserItem(ItemInfo info)
