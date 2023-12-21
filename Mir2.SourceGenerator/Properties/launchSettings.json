@@ -1,0 +1,8 @@
+{
+    "profiles": {
+        "Shared": {
+            "commandName": "DebugRoslynComponent",
+            "targetProject": "..\\Shared\\Shared.csproj"
+        }
+    }
+}

@@ -1,9 +1,18 @@
-﻿public class BaseStats
-{
-    public MirClass Job;
-    public List<BaseStat> Stats = new List<BaseStat>();
+﻿using MessagePack;
 
+[MessagePackObject]
+public class BaseStats
+{
+    [Key(0)]
+    public MirClass Job;
+    [Key(1)]
+    public List<BaseStat> Stats = new List<BaseStat>();
+    [Key(2)]
     public Stats Caps = new Stats();
+
+    public BaseStats()
+    {
+    }
 
     public BaseStats(MirClass job)
     {
@@ -136,14 +145,26 @@
     }
 }
 
+[MessagePackObject]
 public class BaseStat
 {
+    [Key(0)]
     public StatFormula FormulaType;
+    [Key(1)]
     public Stat Type;
+    [Key(2)]
     public int Base;
+    [Key(3)]
     public float Gain;
+    [Key(4)]
     public float GainRate;
+    [Key(5)]
     public int Max;
+    
+    public BaseStat()
+    {
+        
+    }
 
     public BaseStat(Stat type)
     {

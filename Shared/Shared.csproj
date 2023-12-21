@@ -19,4 +19,13 @@
     <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MessagePack" Version="2.5.124" />
+    <PackageReference Include="MessagePackAnalyzer" Version="2.5.124">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <ProjectReference Include="..\Mir2.SourceGenerator\Mir2.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+  </ItemGroup>
+
 </Project>

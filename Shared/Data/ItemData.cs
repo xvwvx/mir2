@@ -1,54 +1,93 @@
 ﻿using System.Text.RegularExpressions;
+using MessagePack;
 
+[MessagePackObject]
 public class ItemInfo
 {
+    [Key(0)]
     public int Index;
+    [Key(1)]
     public string Name = string.Empty;
+    [Key(2)]
     public ItemType Type;
+    [Key(3)]
     public ItemGrade Grade;
+    [Key(4)]
     public RequiredType RequiredType = RequiredType.Level;
+    [Key(5)]
     public RequiredClass RequiredClass = RequiredClass.None;
+    [Key(6)]
     public RequiredGender RequiredGender = RequiredGender.None;
+    [Key(7)]
     public ItemSet Set;
-
+    [Key(8)]
     public short Shape;
-    public byte Weight, Light, RequiredAmount;
-
-    public ushort Image, Durability;
-
-    public uint Price; 
+    [Key(9)]
+    public byte Weight;
+    [Key(10)]
+    public byte Light;
+    [Key(11)]
+    public byte RequiredAmount;
+    [Key(12)]
+    public ushort Image;
+    [Key(13)]
+    public ushort Durability;
+    [Key(14)]
+    public uint Price;
+    [Key(15)]
     public ushort StackSize = 1;
-
+    [Key(16)]
     public bool StartItem;
+    [Key(17)]
     public byte Effect;
 
-    public bool NeedIdentify, ShowGroupPickup, GlobalDropNotify;
+    [Key(18)]
+    public byte Flags;
+    [IgnoreMember]
+    public bool NeedIdentify;
+    [IgnoreMember]
+    public bool ShowGroupPickup;
+    [IgnoreMember]
     public bool ClassBased;
+    [IgnoreMember]
     public bool LevelBased;
+    [IgnoreMember]
     public bool CanMine;
+    [IgnoreMember]
+    public bool GlobalDropNotify;
+
+    [Key(19)]
     public bool CanFastRun;
+    [Key(20)]
     public bool CanAwakening;
-
+    [Key(21)]
     public BindMode Bind = BindMode.None;
-
+    [Key(22)]
     public SpecialItemMode Unique = SpecialItemMode.None;
+    [Key(23)]
     public byte RandomStatsId;
+    [IgnoreMember]
     public RandomItemStat RandomStats;
+    [Key(24)]
     public string ToolTip = string.Empty;
-
+    [Key(25)]
     public byte Slots;
-
+    [Key(26)]
     public Stats Stats;
 
+    [IgnoreMember]
     public bool IsConsumable
     {
         get { return Type == ItemType.Potion || Type == ItemType.Scroll || Type == ItemType.Food || Type == ItemType.Transform || Type == ItemType.Script || Type == ItemType.SealedHero; }
     }
+
+    [IgnoreMember]
     public bool IsFishingRod
     {
         get { return Globals.FishingRodShapes.Contains(Shape); }
     }
 
+    [IgnoreMember]
     public string FriendlyName
     {
         get
@@ -61,7 +100,7 @@ public class ItemInfo
         }
     }
 
-    public ItemInfo() 
+    public ItemInfo()
     {
         Stats = new Stats();
     }
@@ -204,7 +243,6 @@ public class ItemInfo
     }
 
 
-
     public void Save(BinaryWriter writer)
     {
         writer.Write(Index);
@@ -231,16 +269,16 @@ public class ItemInfo
 
         writer.Write(Effect);
 
-        byte bools = 0;
-        if (NeedIdentify) bools |= 0x01;
-        if (ShowGroupPickup) bools |= 0x02;
-        if (ClassBased) bools |= 0x04;
-        if (LevelBased) bools |= 0x08;
-        if (CanMine) bools |= 0x10;
-        if (GlobalDropNotify) bools |= 0x20;
-        writer.Write(bools);
-        
-        writer.Write((short)Bind);        
+        Flags = 0;
+        if (NeedIdentify) Flags |= 0x01;
+        if (ShowGroupPickup) Flags |= 0x02;
+        if (ClassBased) Flags |= 0x04;
+        if (LevelBased) Flags |= 0x08;
+        if (CanMine) Flags |= 0x10;
+        if (GlobalDropNotify) Flags |= 0x20;
+        writer.Write(Flags);
+
+        writer.Write((short)Bind);
         writer.Write((short)Unique);
 
         writer.Write(RandomStatsId);
@@ -254,7 +292,6 @@ public class ItemInfo
         writer.Write(ToolTip != null);
         if (ToolTip != null)
             writer.Write(ToolTip);
-
     }
 
     public static ItemInfo FromText(string text)
@@ -274,56 +311,79 @@ public class ItemInfo
 
 }
 
+[MessagePackObject]
 public class UserItem
 {
+    [Key(0)]
     public ulong UniqueID;
+    [Key(1)]
     public int ItemIndex;
-
+    [Key(2)]
     public ItemInfo Info;
-    public ushort CurrentDura, MaxDura;
-    public ushort Count = 1,
-                GemCount = 0;
-
+    [Key(3)]
+    public ushort CurrentDura;
+    [Key(4)]
+    public ushort MaxDura;
+    [Key(5)]
+    public ushort Count = 1;
+    [Key(6)]
+    public ushort GemCount = 0;
+    [Key(7)]
     public RefinedValue RefinedValue = RefinedValue.None;
+    [Key(8)]
     public byte RefineAdded = 0;
+    [Key(9)]
     public int RefineSuccessChance = 0;
-
+    [Key(10)]
     public bool DuraChanged;
+    [Key(11)]
     public int SoulBoundId = -1;
+    
+    [Key(12)]
+    public byte Flags;
+    [IgnoreMember]
     public bool Identified = false;
+    [IgnoreMember]
     public bool Cursed = false;
-
+    
+    [Key(13)]
     public int WeddingRing = -1;
-
+    [Key(14)]
     public UserItem[] Slots = new UserItem[0];
-
+    [Key(15)]
     public DateTime BuybackExpiryDate;
-
+    [Key(16)]
     public ExpireInfo ExpireInfo;
+    [Key(17)]
     public RentalInformation RentalInformation;
+    [Key(18)]
     public SealedInfo SealedInfo;
-
+    [Key(19)]
     public bool IsShopItem;
-
+    [Key(20)]
     public Awake Awake = new Awake();
-
+    [Key(21)]
     public Stats AddedStats;
 
+    [IgnoreMember]
     public bool IsAdded
     {
         get { return AddedStats.Count > 0 || Slots.Length > Info.Slots; }
     }
 
+    [IgnoreMember]
     public int Weight
     {
         get { return Info.Type == ItemType.Amulet ? Info.Weight : Info.Weight * Count; }
     }
 
+    [IgnoreMember]
     public string FriendlyName
     {
         get { return Count > 1 ? string.Format("{0} ({1})", Info.FriendlyName, Count) : Info.FriendlyName; }
     }
 
+    [Key(22)]
     public bool GMMade { get; set; }
 
     public UserItem(ItemInfo info)
@@ -335,6 +395,11 @@ public class UserItem
 
         SetSlotSize();
     }
+
+    public UserItem()
+    {
+    }
+
     public UserItem(BinaryReader reader, int version = int.MaxValue, int customVersion = int.MaxValue)
     {
         UniqueID = reader.ReadUInt64();
@@ -372,9 +437,9 @@ public class UserItem
         }
 
         SoulBoundId = reader.ReadInt32();
-        byte Bools = reader.ReadByte();
-        Identified = (Bools & 0x01) == 0x01;
-        Cursed = (Bools & 0x02) == 0x02;
+        Flags = reader.ReadByte();
+        Identified = (Flags & 0x01) == 0x01;
+        Cursed = (Flags & 0x02) == 0x02;
 
         if (version <= 84)
         {
@@ -466,12 +531,12 @@ public class UserItem
         writer.Write(MaxDura);
 
         writer.Write(Count);
-       
+
         writer.Write(SoulBoundId);
-        byte Bools = 0;
-        if (Identified) Bools |= 0x01;
-        if (Cursed) Bools |= 0x02;
-        writer.Write(Bools);
+        Flags = 0;
+        if (Identified) Flags |= 0x01;
+        if (Cursed) Flags |= 0x02;
+        writer.Write(Flags);
 
         writer.Write(Slots.Length);
         for (int i = 0; i < Slots.Length; i++)
@@ -540,6 +605,7 @@ public class UserItem
 
         return p * Count;
     }
+
     public uint RepairPrice()
     {
         if (Info == null || Info.Durability == 0)
@@ -551,7 +617,6 @@ public class UserItem
         {
             p = (uint)Math.Floor(MaxDura * ((Info.Price / 2F) / Info.Durability) + Info.Price / 2F);
             p = (uint)(p * (AddedStats.Count * 0.1F + 1F));
-
         }
 
         var cost = p * Count - Price();
@@ -612,6 +677,7 @@ public class UserItem
 
         return p;
     }
+
     public void SetSlotSize(int? size = null)
     {
         if (size == null)
@@ -638,6 +704,7 @@ public class UserItem
         Array.Resize(ref Slots, size ?? Info.Slots);
     }
 
+    [Key(26)]
     public ushort Image
     {
         get
@@ -645,6 +712,7 @@ public class UserItem
             switch (Info.Type)
             {
                 #region Amulet and Poison Stack Image changes
+
                 case ItemType.Amulet:
                     if (Info.StackSize > 0)
                     {
@@ -708,11 +776,15 @@ public class UserItem
 
 }
 
+[MessagePackObject]
 public class ExpireInfo
 {
+    [Key(0)]
     public DateTime ExpiryDate;
 
-    public ExpireInfo() { }
+    public ExpireInfo()
+    {
+    }
 
     public ExpireInfo(BinaryReader reader, int version = int.MaxValue, int Customversion = int.MaxValue)
     {
@@ -725,12 +797,17 @@ public class ExpireInfo
     }
 }
 
+[MessagePackObject]
 public class SealedInfo
 {
+    [Key(0)]
     public DateTime ExpiryDate;
+    [Key(1)]
     public DateTime NextSealDate;
 
-    public SealedInfo() { }
+    public SealedInfo()
+    {
+    }
 
     public SealedInfo(BinaryReader reader, int version = int.MaxValue, int Customversion = int.MaxValue)
     {
@@ -749,14 +826,21 @@ public class SealedInfo
     }
 }
 
+[MessagePackObject]
 public class RentalInformation
 {
+    [Key(0)]
     public string OwnerName;
+    [Key(1)]
     public BindMode BindingFlags = BindMode.None;
+    [Key(2)]
     public DateTime ExpiryDate;
+    [Key(3)]
     public bool RentalLocked;
 
-    public RentalInformation() { }
+    public RentalInformation()
+    {
+    }
 
     public RentalInformation(BinaryReader reader, int version = int.MaxValue, int CustomVersion = int.MaxValue)
     {
@@ -775,22 +859,38 @@ public class RentalInformation
     }
 }
 
+[MessagePackObject]
 public class GameShopItem
 {
+    [Key(0)]
     public int ItemIndex;
+    [Key(1)]
     public int GIndex;
+    [Key(2)]
     public ItemInfo Info;
+    [Key(3)]
     public uint GoldPrice = 0;
+    [Key(4)]
     public uint CreditPrice = 0;
+    [Key(5)]
     public ushort Count = 1;
+    [Key(6)]
     public string Class = "";
+    [Key(7)]
     public string Category = "";
+    [Key(8)]
     public int Stock = 0;
+    [Key(9)]
     public bool iStock = false;
+    [Key(10)]
     public bool Deal = false;
+    [Key(11)]
     public bool TopItem = false;
+    [Key(12)]
     public DateTime Date;
+    [Key(13)]
     public bool CanBuyGold = false;
+    [Key(14)]
     public bool CanBuyCredit = false;
 
     public GameShopItem()
@@ -823,7 +923,6 @@ public class GameShopItem
             CanBuyGold = reader.ReadBoolean();
             CanBuyCredit = reader.ReadBoolean();
         }
-
     }
 
     public GameShopItem(BinaryReader reader, bool packet = false)
@@ -871,6 +970,7 @@ public class GameShopItem
 
 }
 
+[MessagePackObject]
 public class Awake
 {
     //Awake Option
@@ -884,11 +984,14 @@ public class Awake
     public static float[] AwakeMaterialRate = new float[4] { 1.0F, 1.0F, 1.0F, 1.0F };
     public static byte[] AwakeChanceMax = new byte[4] { 1, 2, 3, 4 };
     public static List<List<byte>[]> AwakeMaterials = new List<List<byte>[]>();
-
+    [Key(0)]
     public AwakeType Type = AwakeType.None;
-    readonly List<byte> listAwake = new List<byte>();
+    [Key(1)]
+    public List<byte> listAwake = new List<byte>();
 
-    public Awake() { }
+    public Awake()
+    {
+    }
 
     public Awake(BinaryReader reader)
     {
@@ -909,9 +1012,16 @@ public class Awake
             writer.Write(value);
         }
     }
-    public bool IsMaxLevel() { return listAwake.Count == Awake.MaxAwakeLevel; }
 
-    public int GetAwakeLevel() { return listAwake.Count; }
+    public bool IsMaxLevel()
+    {
+        return listAwake.Count == MaxAwakeLevel;
+    }
+
+    public int GetAwakeLevel()
+    {
+        return listAwake.Count;
+    }
 
     public byte GetAwakeValue()
     {
@@ -1024,14 +1134,40 @@ public class Awake
         }
     }
 
-    public int GetAwakeLevelValue(int i) { return listAwake[i]; }
+    public int GetAwakeLevelValue(int i)
+    {
+        return listAwake[i];
+    }
 
-    public byte GetDC() { return (Type == AwakeType.DC ? GetAwakeValue() : (byte)0); }
-    public byte GetMC() { return (Type == AwakeType.MC ? GetAwakeValue() : (byte)0); }
-    public byte GetSC() { return (Type == AwakeType.SC ? GetAwakeValue() : (byte)0); }
-    public byte GetAC() { return (Type == AwakeType.AC ? GetAwakeValue() : (byte)0); }
-    public byte GetMAC() { return (Type == AwakeType.MAC ? GetAwakeValue() : (byte)0); }
-    public byte GetHPMP() { return (Type == AwakeType.HPMP ? GetAwakeValue() : (byte)0); }
+    public byte GetDC()
+    {
+        return (Type == AwakeType.DC ? GetAwakeValue() : (byte)0);
+    }
+
+    public byte GetMC()
+    {
+        return (Type == AwakeType.MC ? GetAwakeValue() : (byte)0);
+    }
+
+    public byte GetSC()
+    {
+        return (Type == AwakeType.SC ? GetAwakeValue() : (byte)0);
+    }
+
+    public byte GetAC()
+    {
+        return (Type == AwakeType.AC ? GetAwakeValue() : (byte)0);
+    }
+
+    public byte GetMAC()
+    {
+        return (Type == AwakeType.MAC ? GetAwakeValue() : (byte)0);
+    }
+
+    public byte GetHPMP()
+    {
+        return (Type == AwakeType.HPMP ? GetAwakeValue() : (byte)0);
+    }
 
     private bool[] MakeHit(int maxValue, out int makeValue)
     {
@@ -1060,7 +1196,9 @@ public class Awake
     private bool[] Awakening(UserItem item)
     {
         int minValue = AwakeChanceMin;
-        int maxValue = (AwakeChanceMax[(int)item.Info.Grade - 1] < minValue) ? minValue : AwakeChanceMax[(int)item.Info.Grade - 1];
+        int maxValue = (AwakeChanceMax[(int)item.Info.Grade - 1] < minValue)
+            ? minValue
+            : AwakeChanceMax[(int)item.Info.Grade - 1];
 
         bool[] returnValue = MakeHit(maxValue, out int result);
 
@@ -1086,15 +1224,21 @@ public class Awake
     }
 }
 
-
+[MessagePackObject]
 public class ItemRentalInformation
 {
+    [Key(0)]
     public ulong ItemId;
+    [Key(1)]
     public string ItemName;
+    [Key(2)]
     public string RentingPlayerName;
+    [Key(3)]
     public DateTime ItemReturnDate;
 
-    public ItemRentalInformation() { }
+    public ItemRentalInformation()
+    {
+    }
 
     public ItemRentalInformation(BinaryReader reader, int version = int.MaxValue, int customVersion = int.MaxValue)
     {
@@ -1118,6 +1262,7 @@ public class ItemSets
 {
     public ItemSet Set;
     public List<ItemType> Type;
+
     private byte Amount
     {
         get
@@ -1165,16 +1310,14 @@ public class ItemSets
             }
         }
     }
+
     public byte Count;
+
     public bool SetComplete
     {
-        get
-        {
-            return Count >= Amount;
-        }
+        get { return Count >= Amount; }
     }
 }
-
 
 public class RandomItemStat
 {
@@ -1189,7 +1332,12 @@ public class RandomItemStat
     public byte CurseChance;
     public byte SlotChance, SlotStatChance, SlotMaxStat;
 
-    public RandomItemStat(ItemType Type = ItemType.Book)
+    public RandomItemStat()
+        : this(ItemType.Book)
+    {
+    }
+
+    public RandomItemStat(ItemType Type)
     {
         switch (Type)
         {
@@ -1251,6 +1399,7 @@ public class RandomItemStat
         AccuracyStatChance = 20;
         AccuracyMaxStat = 2;
     }
+
     public void SetArmour()
     {
         MaxDuraChance = 2;
@@ -1276,8 +1425,8 @@ public class RandomItemStat
         MaxScChance = 40;
         MaxScStatChance = 20;
         MaxScMaxStat = 7;
-
     }
+
     public void SetHelmet()
     {
         MaxDuraChance = 2;
@@ -1304,6 +1453,7 @@ public class RandomItemStat
         MaxScStatChance = 20;
         MaxScMaxStat = 7;
     }
+
     public void SetBeltBoots()
     {
         MaxDuraChance = 2;
@@ -1334,6 +1484,7 @@ public class RandomItemStat
         AgilityStatChance = 30;
         AgilityMaxStat = 3;
     }
+
     public void SetNecklace()
     {
         MaxDuraChance = 2;
@@ -1360,6 +1511,7 @@ public class RandomItemStat
         AgilityStatChance = 30;
         AgilityMaxStat = 7;
     }
+
     public void SetBracelet()
     {
         MaxDuraChance = 2;
@@ -1386,6 +1538,7 @@ public class RandomItemStat
         MaxScStatChance = 30;
         MaxScMaxStat = 6;
     }
+
     public void SetRing()
     {
         MaxDuraChance = 2;
@@ -1419,23 +1572,31 @@ public class RandomItemStat
     }
 }
 
+[MessagePackObject]
 public class ChatItem
 {
+    [Key(0)]
     public ulong UniqueID;
+    [Key(1)]
     public string Title;
+    [Key(2)]
     public MirGridType Grid;
 
+    [IgnoreMember]
     public string RegexInternalName
     {
         get { return $"<{Title.Replace("(", "\\(").Replace(")", "\\)")}>"; }
     }
 
+    [IgnoreMember]
     public string InternalName
     {
         get { return $"<{Title}/{UniqueID}>"; }
     }
 
-    public ChatItem() { }
+    public ChatItem()
+    {
+    }
 
     public ChatItem(BinaryReader reader)
     {
