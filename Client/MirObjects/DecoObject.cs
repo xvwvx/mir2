@@ -25,7 +25,7 @@ namespace Client.MirObjects
 
         public void Load(S.ObjectDeco info)
         {
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             MapLocation = info.Location;
             GameScene.Scene.MapControl.AddObject(this);
             Image = info.Image;
@@ -34,7 +34,7 @@ namespace Client.MirObjects
         }
         public override void Process()
         {
-            DrawLocation = new Point((CurrentLocation.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (CurrentLocation.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
+            DrawLocation = new Point((MapLocation.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (MapLocation.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
             DrawLocation.Offset(GlobalDisplayLocationOffset);
             DrawLocation.Offset(User.OffSetMove);
         }

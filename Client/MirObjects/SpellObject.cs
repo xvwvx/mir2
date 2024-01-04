@@ -29,7 +29,7 @@ namespace Client.MirObjects
 
         public void Load(S.ObjectSpell info)
         {
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             MapLocation = info.Location;
             GameScene.Scene.MapControl.AddObject(this);
             Spell = info.Spell;
@@ -80,7 +80,7 @@ namespace Client.MirObjects
                     break;
                 case Spell.MeteorStrike:
                     AnimationOffset = new Point(0, -20);
-                    MapControl.Effects.Add(new Effect(Libraries.Magic2, 1600, 10, 800, CurrentLocation) { Repeat = true, RepeatUntil = CMain.Time + 3000 });
+                    MapControl.Effects.Add(new Effect(Libraries.Magic2, 1600, 10, 800, MapLocation) { Repeat = true, RepeatUntil = CMain.Time + 3000 });
                     BodyLibrary = Libraries.Magic2;
                     DrawFrame = 1610;
                     FrameInterval = 100;
@@ -137,20 +137,20 @@ namespace Client.MirObjects
                     Blend = true;
                     break;
                 case Spell.MapLightning:
-                    MapControl.Effects.Add(new Effect(Libraries.Dragon, 400 + (CMain.Random.Next(3) * 10), 5, 600, CurrentLocation));
+                    MapControl.Effects.Add(new Effect(Libraries.Dragon, 400 + (CMain.Random.Next(3) * 10), 5, 600, MapLocation));
                     SoundManager.PlaySound(8301);
                     break;
                 case Spell.MapLava:
-                    MapControl.Effects.Add(new Effect(Libraries.Dragon, 440, 20, 1600, CurrentLocation) { Blend = false });
-                    MapControl.Effects.Add(new Effect(Libraries.Dragon, 470, 10, 800, CurrentLocation));
+                    MapControl.Effects.Add(new Effect(Libraries.Dragon, 440, 20, 1600, MapLocation) { Blend = false });
+                    MapControl.Effects.Add(new Effect(Libraries.Dragon, 470, 10, 800, MapLocation));
                     SoundManager.PlaySound(8302);
                     break;
                 case Spell.MapQuake1:
-                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HellLord], 27, 12, 1200, CurrentLocation) { Blend = false });
+                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HellLord], 27, 12, 1200, MapLocation) { Blend = false });
                     SoundManager.PlaySound(8304);
                     break;
                 case Spell.MapQuake2:
-                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HellLord], 39, 13, 1300, CurrentLocation) { Blend = false });
+                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HellLord], 39, 13, 1300, MapLocation) { Blend = false });
                     SoundManager.PlaySound(8304);
                     break;
                 case Spell.DigOutArmadillo:
@@ -160,7 +160,7 @@ namespace Client.MirObjects
                     Blend = false;
                     break;
                 case Spell.GeneralMeowMeowThunder:                
-                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.GeneralMeowMeow], 522, 7, 700, CurrentLocation) { Blend = true });
+                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.GeneralMeowMeow], 522, 7, 700, MapLocation) { Blend = true });
                     SoundManager.PlaySound(8321);
                     break;
                 case Spell.StoneGolemQuake:
@@ -191,7 +191,7 @@ namespace Client.MirObjects
                     Blend = false;
                     Repeat = false;
                     SoundManager.PlaySound(8341);
-                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TreeQueen], 97, 14, 1400, CurrentLocation) { Blend = true });
+                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TreeQueen], 97, 14, 1400, MapLocation) { Blend = true });
                     break;
                 case Spell.TreeQueenGroundRoots:
                     BodyLibrary = Libraries.Monsters[(ushort)Monster.TreeQueen];
@@ -201,7 +201,7 @@ namespace Client.MirObjects
                     Blend = false;
                     Repeat = false;
                     SoundManager.PlaySound(8342);
-                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TreeQueen], 57, 9, 900, CurrentLocation) { Blend = true });
+                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TreeQueen], 57, 9, 900, MapLocation) { Blend = true });
                     break;
                 case Spell.TreeQueenRoot:
                     BodyLibrary = Libraries.Monsters[(ushort)Monster.TreeQueen];
@@ -213,7 +213,7 @@ namespace Client.MirObjects
                     SoundManager.PlaySound(8343);
                     break;
                 case Spell.TucsonGeneralRock:
-                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TucsonGeneral], 552, 20, 2000, CurrentLocation) { Repeat = false, Blend = false });
+                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TucsonGeneral], 552, 20, 2000, MapLocation) { Repeat = false, Blend = false });
                     BodyLibrary = Libraries.Monsters[(ushort)Monster.TucsonGeneral];
                     DrawFrame = 572;
                     FrameInterval = 100;
@@ -281,7 +281,7 @@ namespace Client.MirObjects
                     Blend = false;
                     Repeat = true;
                     SoundManager.PlaySound(8457);
-                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HornedCommander], 1199, 9, 900, CurrentLocation) { Blend = true });
+                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HornedCommander], 1199, 9, 900, MapLocation) { Blend = true });
                     break;
             }
 
@@ -320,7 +320,7 @@ namespace Client.MirObjects
                 }
             }
 
-            DrawLocation = new Point((CurrentLocation.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (CurrentLocation.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
+            DrawLocation = new Point((MapLocation.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (MapLocation.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
             DrawLocation.Offset(GlobalDisplayLocationOffset);
             DrawLocation.Offset(User.OffSetMove);
         }
@@ -363,8 +363,8 @@ namespace Client.MirObjects
         private Point GetDrawWithOffset()
         {
             Point newDrawLocation = new (
-                (CurrentLocation.X + AnimationOffset.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth,
-                (CurrentLocation.Y + AnimationOffset.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
+                (MapLocation.X + AnimationOffset.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth,
+                (MapLocation.Y + AnimationOffset.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
 
             newDrawLocation.Offset(GlobalDisplayLocationOffset);
             newDrawLocation.Offset(User.OffSetMove);

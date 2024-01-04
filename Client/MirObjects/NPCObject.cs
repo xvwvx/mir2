@@ -51,7 +51,7 @@ namespace Client.MirObjects
         {
             Name = info.Name;
             NameColour = info.NameColour;
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             Direction = info.Direction;
             Movement = info.Location;
             MapLocation = info.Location;
@@ -102,7 +102,7 @@ namespace Client.MirObjects
                 DrawWingFrame = Frame.EffectStart + (Frame.EffectOffSet * (byte)Direction) + EffectFrameIndex;
             }
 
-            DrawY = CurrentLocation.Y;
+            DrawY = MapLocation.Y;
 
             DrawLocation = new Point((Movement.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (Movement.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
             DrawLocation.Offset(User.OffSetMove);
@@ -250,10 +250,10 @@ namespace Client.MirObjects
                     EffectFrameIndex = 0;
                 }
 
-                if (MapLocation != CurrentLocation)
+                if (MapLocation != MapLocation)
                 {
                     GameScene.Scene.MapControl.RemoveObject(this);
-                    MapLocation = CurrentLocation;
+                    MapLocation = MapLocation;
                     GameScene.Scene.MapControl.AddObject(this);
                 }
 
@@ -268,7 +268,7 @@ namespace Client.MirObjects
                 ActionFeed.RemoveAt(0);
 
                 CurrentAction = action.Action;
-                CurrentLocation = action.Location;
+                MapLocation = action.Location;
 
                 //if(CanChangeDir)
                 //    Direction = action.Direction;
@@ -308,7 +308,7 @@ namespace Client.MirObjects
 
         public override bool MouseOver(Point p)
         {
-            return MapControl.MapLocation == CurrentLocation || BodyLibrary != null && BodyLibrary.VisiblePixel(DrawFrame, p.Subtract(FinalDrawLocation), false);
+            return MapControl.MapLocation == MapLocation || BodyLibrary != null && BodyLibrary.VisiblePixel(DrawFrame, p.Subtract(FinalDrawLocation), false);
         }
 
         public override void DrawBehindEffects(bool effectsEnabled)

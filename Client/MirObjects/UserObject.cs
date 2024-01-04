@@ -77,7 +77,7 @@ namespace Client.MirObjects
             Gender = info.Gender;
             Level = info.Level;
 
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             MapLocation = info.Location;
             GameScene.Scene.MapControl.AddObject(this);
 

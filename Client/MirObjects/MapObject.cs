@@ -60,7 +60,7 @@ namespace Client.MirObjects
 
         public uint ObjectID;
         public string Name = string.Empty;
-        public Point CurrentLocation, MapLocation;
+        public Point MapLocation;
         public MirDirection Direction;
         public bool Dead, Hidden, SitDown, Sneaking;
         public PoisonType Poison;

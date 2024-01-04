@@ -614,7 +614,7 @@ namespace Client.MirScenes.Dialogs
             int X = (int)((e.Location.X - BigMap_MouseCoordsProcessing_OffsetX) / ScaleX);
             int Y = (int)((e.Location.Y - BigMap_MouseCoordsProcessing_OffsetY) / ScaleY);
 
-            var path = GameScene.Scene.MapControl.PathFinder.FindPath(MapObject.User.CurrentLocation, new Point(X, Y));
+            var path = GameScene.Scene.MapControl.PathFinder.FindPath(MapObject.User.MapLocation, new Point(X, Y));
 
             if (path == null || path.Count == 0)
             {
@@ -662,8 +662,8 @@ namespace Client.MirScenes.Dialogs
             ScaleY = Size.Height / (float)currentRecord.MapInfo.Height;
 
             viewRect.Location = new Point(
-                (int)(ScaleX * MapObject.User.CurrentLocation.X) - viewRect.Width / 2,
-                (int)(ScaleY * MapObject.User.CurrentLocation.Y) - viewRect.Height / 2);
+                (int)(ScaleX * MapObject.User.MapLocation.X) - viewRect.Width / 2,
+                (int)(ScaleY * MapObject.User.MapLocation.Y) - viewRect.Height / 2);
 
             if (viewRect.Right >= Size.Width)
                 viewRect.X = Size.Width - viewRect.Width;
@@ -688,8 +688,8 @@ namespace Client.MirScenes.Dialogs
                     MapObject ob = MapControl.Objects[i];
 
                     if (ob.Race == ObjectType.Item || ob.Dead || ob.Race == ObjectType.Spell || ob.ObjectID == MapObject.User.ObjectID) continue;
-                    x = ((ob.CurrentLocation.X - startPointX) * ScaleX) + DisplayLocation.X;
-                    y = ((ob.CurrentLocation.Y - startPointY) * ScaleY) + DisplayLocation.Y;
+                    x = ((ob.MapLocation.X - startPointX) * ScaleX) + DisplayLocation.X;
+                    y = ((ob.MapLocation.Y - startPointY) * ScaleY) + DisplayLocation.Y;
 
                     Color colour;
 
@@ -706,8 +706,8 @@ namespace Client.MirScenes.Dialogs
                     DXManager.Draw(DXManager.RadarTexture, new Rectangle(0, 0, 2, 2), new Vector3((float)(x - 0.5), (float)(y - 0.5), 0.0F), colour);
                 }
 
-                x = MapObject.User.CurrentLocation.X * ScaleX;
-                y = MapObject.User.CurrentLocation.Y * ScaleY;
+                x = MapObject.User.MapLocation.X * ScaleX;
+                y = MapObject.User.MapLocation.Y * ScaleY;
                 var s = UserRadarDot.Size;
                 UserRadarDot.Location = new Point((int)x - s.Width / 2, (int)y - s.Height / 2);
 

@@ -1897,8 +1897,8 @@ namespace Client.MirScenes.Dialogs
             float scaleY = miniMapSize.Height / (float)map.Height;
 
             viewRect.Location = new Point(
-                (int)(scaleX * MapObject.User.CurrentLocation.X) - viewRect.Width / 2,
-                (int)(scaleY * MapObject.User.CurrentLocation.Y) - viewRect.Height / 2);
+                (int)(scaleX * MapObject.User.MapLocation.X) - viewRect.Width / 2,
+                (int)(scaleY * MapObject.User.MapLocation.Y) - viewRect.Height / 2);
 
             //   viewRect.Location = viewRect.Location.Subtract(1, 1);
             if (viewRect.Right >= miniMapSize.Width)
@@ -1920,8 +1920,8 @@ namespace Client.MirScenes.Dialogs
                 MapObject ob = MapControl.Objects[i];
 
                 if (ob.Race == ObjectType.Item || ob.Dead || ob.Race == ObjectType.Spell || ob.Sneaking) continue;
-                float x = ((ob.CurrentLocation.X - startPointX) * scaleX) + drawLocation.X;
-                float y = ((ob.CurrentLocation.Y - startPointY) * scaleY) + drawLocation.Y;
+                float x = ((ob.MapLocation.X - startPointX) * scaleX) + drawLocation.X;
+                float y = ((ob.MapLocation.Y - startPointY) * scaleY) + drawLocation.Y;
 
                 Color colour;
 
@@ -2058,7 +2058,7 @@ namespace Client.MirScenes.Dialogs
             if (map == null) return;
 
             MapNameLabel.Text = map.Title;
-            LocationLabel.Text = Functions.PointToString(MapObject.User.CurrentLocation);
+            LocationLabel.Text = Functions.PointToString(MapObject.User.MapLocation);
 
             GameScene.Scene.MainDialog.SModeLabel.Location = new Point((GameScene.Scene.MiniMapDialog.Location.X - 3) - GameScene.Scene.MainDialog.Location.X,
             (GameScene.Scene.MiniMapDialog.Size.Height + 150) - Settings.ScreenHeight);

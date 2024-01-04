@@ -75,7 +75,7 @@ namespace Client.MirObjects
 
             OldNameColor = NameColour;
 
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             MapLocation = info.Location;
             if (!update) GameScene.Scene.MapControl.AddObject(this);
 
@@ -197,9 +197,9 @@ namespace Client.MirObjects
             }
 
             if (Skeleton)
-                ActionFeed.Add(new QueuedAction { Action = MirAction.Skeleton, Direction = Direction, Location = CurrentLocation });
+                ActionFeed.Add(new QueuedAction { Action = MirAction.Skeleton, Direction = Direction, Location = MapLocation });
             else if (Dead)
-                ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = CurrentLocation });
+                ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = MapLocation });
 
             BaseSound = (ushort)BaseImage * 10;
 
@@ -216,7 +216,7 @@ namespace Client.MirObjects
                 case Monster.LightningBead:
                 case Monster.HealingBead:
                 case Monster.PowerUpBead:
-                    if (!info.Extra) ActionFeed.Add(new QueuedAction { Action = MirAction.Appear, Direction = Direction, Location = CurrentLocation });
+                    if (!info.Extra) ActionFeed.Add(new QueuedAction { Action = MirAction.Appear, Direction = Direction, Location = MapLocation });
                     break;
                 case Monster.FrostTiger:
                 case Monster.FlameTiger:
@@ -360,7 +360,7 @@ namespace Client.MirObjects
                     if (Frame == null)
                     {
                         OffSetMove = Point.Empty;
-                        Movement = CurrentLocation;
+                        Movement = MapLocation;
                         break;
                     }
                     int i = CurrentAction == MirAction.Running ? 2 : 1;
@@ -368,7 +368,7 @@ namespace Client.MirObjects
                     if (CurrentAction == MirAction.Jump) i = -JumpDistance;
                     if (CurrentAction == MirAction.DashAttack) i = JumpDistance;
 
-                    Movement = Functions.PointMove(CurrentLocation, Direction, CurrentAction == MirAction.Pushed ? 0 : -i);
+                    Movement = Functions.PointMove(MapLocation, Direction, CurrentAction == MirAction.Pushed ? 0 : -i);
 
                     int count = Frame.Count;
                     int index = FrameIndex;
@@ -411,13 +411,13 @@ namespace Client.MirObjects
                     break;
                 default:
                     OffSetMove = Point.Empty;
-                    Movement = CurrentLocation;
+                    Movement = MapLocation;
                     break;
             }
 
             #endregion
 
-            DrawY = Movement.Y > CurrentLocation.Y ? Movement.Y : CurrentLocation.Y;
+            DrawY = Movement.Y > MapLocation.Y ? Movement.Y : MapLocation.Y;
 
             DrawLocation = new Point((Movement.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (Movement.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
             DrawLocation.Offset(-OffSetMove.X, -OffSetMove.Y);
@@ -500,10 +500,10 @@ namespace Client.MirObjects
 
                 Frames.TryGetValue(CurrentAction, out Frame);
 
-                if (MapLocation != CurrentLocation)
+                if (MapLocation != MapLocation)
                 {
                     GameScene.Scene.MapControl.RemoveObject(this);
-                    MapLocation = CurrentLocation;
+                    MapLocation = MapLocation;
                     GameScene.Scene.MapControl.AddObject(this);
                 }
 
@@ -520,7 +520,7 @@ namespace Client.MirObjects
 
                 CurrentActionLevel = 0;
                 CurrentAction = action.Action;
-                CurrentLocation = action.Location;
+                MapLocation = action.Location;
                 Direction = action.Direction;
 
                 Point temp;
@@ -530,18 +530,18 @@ namespace Client.MirObjects
                     case MirAction.Running:
                     case MirAction.Pushed:
                         int i = CurrentAction == MirAction.Running ? 2 : 1;
-                        temp = Functions.PointMove(CurrentLocation, Direction, CurrentAction == MirAction.Pushed ? 0 : -i);
+                        temp = Functions.PointMove(MapLocation, Direction, CurrentAction == MirAction.Pushed ? 0 : -i);
                         break;
                     case MirAction.Jump:
                     case MirAction.DashAttack:
-                        temp = Functions.PointMove(CurrentLocation, Direction, JumpDistance);
+                        temp = Functions.PointMove(MapLocation, Direction, JumpDistance);
                         break;
                     default:
-                        temp = CurrentLocation;
+                        temp = MapLocation;
                         break;
                 }
 
-                temp = new Point(action.Location.X, temp.Y > CurrentLocation.Y ? temp.Y : CurrentLocation.Y);
+                temp = new Point(action.Location.X, temp.Y > MapLocation.Y ? temp.Y : MapLocation.Y);
 
                 if (MapLocation != temp)
                 {
@@ -631,7 +631,7 @@ namespace Client.MirObjects
 
                 FrameInterval = Frame.Interval;
 
-                Point front = Functions.PointMove(CurrentLocation, Direction, 1);
+                Point front = Functions.PointMove(MapLocation, Direction, 1);
 
                 switch (CurrentAction)
                 {
@@ -667,7 +667,7 @@ namespace Client.MirObjects
 
 
                             case Monster.Armadillo:
-                                MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)BaseImage], 592, 12, 800, CurrentLocation, CMain.Time + 500));
+                                MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)BaseImage], 592, 12, 800, MapLocation, CMain.Time + 500));
                                 break;
                         }
                         break;
@@ -722,7 +722,7 @@ namespace Client.MirObjects
                                 byte random = (byte)CMain.Random.Next(7);
                                 for (int i = 0; i <= 7 + random; i++)
                                 {
-                                    Point source = new Point(User.CurrentLocation.X + CMain.Random.Next(-7, 7), User.CurrentLocation.Y + CMain.Random.Next(-7, 7));
+                                    Point source = new Point(User.MapLocation.X + CMain.Random.Next(-7, 7), User.MapLocation.Y + CMain.Random.Next(-7, 7));
 
                                     MapControl.Effects.Add(new Effect(Libraries.Dragon, 230 + (CMain.Random.Next(5) * 10), 5, 400, source, CMain.Time + CMain.Random.Next(1000)));
                                 }
@@ -913,7 +913,7 @@ namespace Client.MirObjects
                                 byte random = (byte)CMain.Random.Next(4);
                                 for (int i = 0; i <= 4 + random; i++)
                                 {
-                                    Point source = new Point(User.CurrentLocation.X + CMain.Random.Next(-7, 7), User.CurrentLocation.Y + CMain.Random.Next(-7, 7));
+                                    Point source = new Point(User.MapLocation.X + CMain.Random.Next(-7, 7), User.MapLocation.Y + CMain.Random.Next(-7, 7));
 
                                     MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.GreatFoxSpirit], 375 + (CMain.Random.Next(3) * 20), 20, 1400, source, CMain.Time + CMain.Random.Next(600)));
                                 }
@@ -1002,7 +1002,7 @@ namespace Client.MirObjects
                                 byte random = (byte)CMain.Random.Next(4);
                                 for (int i = 0; i <= 4 + random; i++)
                                 {
-                                    Point source = new Point(User.CurrentLocation.X + CMain.Random.Next(-7, 7), User.CurrentLocation.Y + CMain.Random.Next(-7, 7));
+                                    Point source = new Point(User.MapLocation.X + CMain.Random.Next(-7, 7), User.MapLocation.Y + CMain.Random.Next(-7, 7));
 
                                     Effect ef = new Effect(Libraries.Monsters[(ushort)Monster.TurtleKing], CMain.Random.Next(2) == 0 ? 922 : 934, 12, 1200, source, CMain.Time + CMain.Random.Next(600));
                                     ef.Played += (o, e) => SoundManager.PlaySound(20000 + (ushort)Spell.HellFire * 10 + 1);
@@ -1149,7 +1149,7 @@ namespace Client.MirObjects
                                 break;
                             case Monster.DeathCrawler:
                                 Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.DeathCrawler], 313, 11, Frame.Count * Frame.Interval, this));
-                                MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.DeathCrawler], 304, 9, 900, CurrentLocation, CMain.Time + 900));
+                                MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.DeathCrawler], 304, 9, 900, MapLocation, CMain.Time + 900));
                                 break;
                             case Monster.BurningZombie:
                                 Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.BurningZombie], 373, 10, Frame.Count * Frame.Interval, this));
@@ -1342,7 +1342,7 @@ namespace Client.MirObjects
                                         switch (BaseImage)
                                         {
                                             case Monster.HornedSorceror:
-                                                MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HornedSorceror], 644 + (int)Direction * 5, 5, 500, CurrentLocation));
+                                                MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.HornedSorceror], 644 + (int)Direction * 5, 5, 500, MapLocation));
                                                 break;
                                         }
                                     }
@@ -1503,7 +1503,7 @@ namespace Client.MirObjects
                     {
                         GameScene.Scene.MapControl.TextureValid = false;
 
-                        Point front = Functions.PointMove(CurrentLocation, Direction, 1);
+                        Point front = Functions.PointMove(MapLocation, Direction, 1);
 
                         if (SkipFrames) UpdateFrame();
 
@@ -1755,7 +1755,7 @@ namespace Client.MirObjects
                                         {
                                             case Monster.FrozenMiner:
                                                 Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.FrozenMiner], 432 + (int)Direction * 3, 3, 300, this));
-                                                Point source = Functions.PointMove(CurrentLocation, Direction, 1);
+                                                Point source = Functions.PointMove(MapLocation, Direction, 1);
                                                 Effect ef = new Effect(Libraries.Monsters[(ushort)Monster.FrozenMiner], 456, 6, 600, source, CMain.Time + 300);
                                                 MapControl.Effects.Add(ef);
                                                 break;
@@ -1763,7 +1763,7 @@ namespace Client.MirObjects
                                                 Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.SnowYeti], 504 + (int)Direction * 4, 4, 400, this));
                                                 break;
                                             case Monster.IceCrystalSoldier:
-                                                source = Functions.PointMove(CurrentLocation, Direction, 1);
+                                                source = Functions.PointMove(MapLocation, Direction, 1);
                                                 ef = new Effect(Libraries.Monsters[(ushort)Monster.IceCrystalSoldier], 464, 6, 600, source, CMain.Time);
                                                 MapControl.Effects.Add(ef);
                                                 break;
@@ -1839,7 +1839,7 @@ namespace Client.MirObjects
 
                         if (SkipFrames) UpdateFrame();
 
-                        Point front = Functions.PointMove(CurrentLocation, Direction, 1);
+                        Point front = Functions.PointMove(MapLocation, Direction, 1);
 
                         if (UpdateFrame() >= Frame.Count)
                         {
@@ -2037,7 +2037,7 @@ namespace Client.MirObjects
                                                 Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.WereTiger], 344 + (int)Direction * 6, 6, 600, this));
                                                 break;
                                             case Monster.Kirin:
-                                                Point source2 = Functions.PointMove(CurrentLocation, Direction, 2);
+                                                Point source2 = Functions.PointMove(MapLocation, Direction, 2);
                                                 Effect ef = new Effect(Libraries.Monsters[(ushort)Monster.Kirin], 816, 8, 800, source2, CMain.Time);
                                                 MapControl.Effects.Add(ef);
                                                 break;
@@ -2222,7 +2222,7 @@ namespace Client.MirObjects
                                             Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.ManTree], 504 + (int)Direction * 2, 2, 200, this));
                                             break;
                                         case Monster.DragonWarrior:
-                                            Point source = Functions.PointMove(CurrentLocation, Direction, 1);
+                                            Point source = Functions.PointMove(MapLocation, Direction, 1);
                                             Effect effect = new Effect(Libraries.Monsters[(ushort)Monster.DragonWarrior], 664, 6, 600, source, CMain.Time + 300);
                                             MapControl.Effects.Add(effect); 
                                             break;
@@ -2235,7 +2235,7 @@ namespace Client.MirObjects
                                             Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.WhiteMammoth], 376, 5, Frame.Count * Frame.Interval, this));
                                             break;
                                         case Monster.ManTree:
-                                            Point source = Functions.PointMove(CurrentLocation, Direction, 1);
+                                            Point source = Functions.PointMove(MapLocation, Direction, 1);
                                             Effect ef = new Effect(Libraries.Monsters[(ushort)Monster.ManTree], 520, 8, 800, source, CMain.Time, drawBehind: true);
                                             MapControl.Effects.Add(ef);
                                             break;
@@ -2655,7 +2655,7 @@ namespace Client.MirObjects
                                                 ob = MapControl.GetObject(TargetID);
                                                 if (ob != null)
                                                 {
-                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.FlamingMutant], 320, 10, 1000, ob.CurrentLocation, CMain.Time) { Blend = true });
+                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.FlamingMutant], 320, 10, 1000, ob.MapLocation, CMain.Time) { Blend = true });
                                                     //SoundManager.PlaySound(BaseSound + 6);
                                                 }
                                                 break;
@@ -2949,8 +2949,8 @@ namespace Client.MirObjects
                                                 ob = MapControl.GetObject(TargetID);
                                                 if (ob != null)
                                                 {
-                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.CreeperPlant], 250, 6, 600, ob.CurrentLocation, CMain.Time) { Blend = true });
-                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.CreeperPlant], 256, 10, 1000, ob.CurrentLocation, CMain.Time) { Blend = false });
+                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.CreeperPlant], 250, 6, 600, ob.MapLocation, CMain.Time) { Blend = true });
+                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.CreeperPlant], 256, 10, 1000, ob.MapLocation, CMain.Time) { Blend = false });
                                                 }
                                                 break;
                                             case Monster.FloatingWraith:
@@ -3005,7 +3005,7 @@ namespace Client.MirObjects
                                                 ob = MapControl.GetObject(TargetID);
                                                 if (ob != null)
                                                 {
-                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.DarkOmaKing], 1715, 13, 1300, ob.CurrentLocation));
+                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.DarkOmaKing], 1715, 13, 1300, ob.MapLocation));
                                                 }
                                                 break;
                                             case Monster.ChieftainArcher:
@@ -3058,7 +3058,7 @@ namespace Client.MirObjects
                                                 }
                                                 break;
                                             case Monster.BlackTortoise:
-                                                Point source = Functions.PointMove(CurrentLocation, Direction, 2);
+                                                Point source = Functions.PointMove(MapLocation, Direction, 2);
 
                                                 missile = CreateProjectile(444, Libraries.Monsters[(ushort)Monster.BlackTortoise], true, 6, 60, 0, direction16: true);
                                                 
@@ -3280,7 +3280,7 @@ namespace Client.MirObjects
                                                 }
                                                 break;
                                             case Monster.IceCrystalSoldier:
-                                                Point source = Functions.PointMove(CurrentLocation, Direction, 1);
+                                                Point source = Functions.PointMove(MapLocation, Direction, 1);
                                                 Effect ef = new Effect(Libraries.Monsters[(ushort)Monster.IceCrystalSoldier], 476, 8, 800, source, CMain.Time);
                                                 MapControl.Effects.Add(ef);
                                                 break;
@@ -3374,7 +3374,7 @@ namespace Client.MirObjects
                                         switch (BaseImage)
                                         {
                                             case Monster.RestlessJar:
-                                                var point = Functions.PointMove(CurrentLocation, Direction, 2);
+                                                var point = Functions.PointMove(MapLocation, Direction, 2);
                                                 MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.RestlessJar], 391 + (int)Direction * 10, 10, 10 * Frame.Interval, point));
                                                 break;
                                             case Monster.KingHydrax:
@@ -3498,7 +3498,7 @@ namespace Client.MirObjects
                                                 ob = MapControl.GetObject(TargetID);
                                                 if (ob != null)
                                                 {
-                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TreeGuardian], 648 + ((int)Direction * 10), 10, 1000, ob.CurrentLocation));
+                                                    MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.TreeGuardian], 648 + ((int)Direction * 10), 10, 1000, ob.MapLocation));
                                                 }
                                                 break;
                                             case Monster.OmaWitchDoctor:
@@ -3649,7 +3649,7 @@ namespace Client.MirObjects
                         {
                             FrameIndex = Frame.Count - 1;
                             ActionFeed.Clear();
-                            ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = CurrentLocation });
+                            ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = MapLocation });
                             SetAction();
                         }
                         else
@@ -3728,7 +3728,7 @@ namespace Client.MirObjects
                                     switch (BaseImage)
                                     {
                                         case Monster.IcePhantom:
-                                            MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.IcePhantom], 692 + (int)Direction * 10, 10, 10 * Frame.Interval, CurrentLocation));
+                                            MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.IcePhantom], 692 + (int)Direction * 10, 10, 10 * Frame.Interval, MapLocation));
                                             break;
                                     }
                                     break;
@@ -3749,7 +3749,7 @@ namespace Client.MirObjects
                         {
                             FrameIndex = Frame.Count - 1;
                             ActionFeed.Clear();
-                            ActionFeed.Add(new QueuedAction { Action = MirAction.Standing, Direction = Direction, Location = CurrentLocation });
+                            ActionFeed.Add(new QueuedAction { Action = MirAction.Standing, Direction = Direction, Location = MapLocation });
                             SetAction();
                         }
                         else
@@ -3804,9 +3804,9 @@ namespace Client.MirObjects
 
             var targetPoint = TargetPoint;
 
-            if (ob != null) targetPoint = ob.CurrentLocation;
+            if (ob != null) targetPoint = ob.MapLocation;
 
-            int duration = Functions.MaxDistance(CurrentLocation, targetPoint) * 50;
+            int duration = Functions.MaxDistance(MapLocation, targetPoint) * 50;
 
             Missile missile = new Missile(library, baseIndex, duration / interval, duration, this, targetPoint, direction16)
             {
@@ -4319,7 +4319,7 @@ namespace Client.MirObjects
 
         public override bool MouseOver(Point p)
         {
-            return MapControl.MapLocation == CurrentLocation || BodyLibrary != null && BodyLibrary.VisiblePixel(DrawFrame, p.Subtract(FinalDrawLocation), false);
+            return MapControl.MapLocation == MapLocation || BodyLibrary != null && BodyLibrary.VisiblePixel(DrawFrame, p.Subtract(FinalDrawLocation), false);
         }
 
         public override void DrawBehindEffects(bool effectsEnabled)

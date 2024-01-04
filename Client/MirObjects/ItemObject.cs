@@ -31,14 +31,14 @@ namespace Client.MirObjects
 
             BodyLibrary = Libraries.FloorItems;
 
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             MapLocation = info.Location;
             GameScene.Scene.MapControl.AddObject(this);
             DrawFrame = info.Image;
 
             Size = BodyLibrary.GetTrueSize(DrawFrame);
 
-            DrawY = CurrentLocation.Y;
+            DrawY = MapLocation.Y;
 
         }
         public void Load(S.ObjectGold info)
@@ -48,7 +48,7 @@ namespace Client.MirObjects
 
             BodyLibrary = Libraries.FloorItems;
 
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             MapLocation = info.Location;
             GameScene.Scene.MapControl.AddObject(this);
 
@@ -65,7 +65,7 @@ namespace Client.MirObjects
 
             Size = BodyLibrary.GetTrueSize(DrawFrame);
 
-            DrawY = CurrentLocation.Y;
+            DrawY = MapLocation.Y;
         }
         public override void Draw()
         {
@@ -75,7 +75,7 @@ namespace Client.MirObjects
 
         public override void Process()
         {
-            DrawLocation = new Point((CurrentLocation.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (CurrentLocation.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
+            DrawLocation = new Point((MapLocation.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (MapLocation.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
             DrawLocation.Offset((MapControl.CellWidth - Size.Width) / 2, (MapControl.CellHeight - Size.Height) / 2);
             DrawLocation.Offset(User.OffSetMove);
             DrawLocation.Offset(GlobalDisplayLocationOffset);
@@ -85,7 +85,7 @@ namespace Client.MirObjects
         }
         public override bool MouseOver(Point p)
         {
-            return MapControl.MapLocation == CurrentLocation;
+            return MapControl.MapLocation == MapLocation;
             // return DisplayRectangle.Contains(p);
         }
 

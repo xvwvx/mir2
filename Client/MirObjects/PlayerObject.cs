@@ -121,7 +121,7 @@ namespace Client.MirObjects
             Gender = info.Gender;
             Level = info.Level;
 
-            CurrentLocation = info.Location;
+            MapLocation = info.Location;
             MapLocation = info.Location;
             GameScene.Scene.MapControl.AddObject(this);
 
@@ -150,7 +150,7 @@ namespace Client.MirObjects
 
             SetLibraries();
 
-            if (Dead) ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = CurrentLocation });
+            if (Dead) ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = MapLocation });
             if (info.Extra) Effects.Add(new Effect(Libraries.Magic2, 670, 10, 800, this));
 
             ElementEffect = (int)info.ElementOrbEffect;
@@ -204,7 +204,7 @@ namespace Client.MirObjects
             MountType = info.MountType;
             RidingMount = info.RidingMount;
 
-            QueuedAction action = new QueuedAction { Action = MirAction.Standing, Direction = Direction, Location = CurrentLocation };
+            QueuedAction action = new QueuedAction { Action = MirAction.Standing, Direction = Direction, Location = MapLocation };
             ActionFeed.Insert(0, action);
 
             MountTime = CMain.Time;
@@ -222,16 +222,16 @@ namespace Client.MirObjects
         {
             if (Fishing != p.Fishing)
             {
-                MirDirection dir = Functions.DirectionFromPoint(CurrentLocation, p.FishingPoint);
+                MirDirection dir = Functions.DirectionFromPoint(MapLocation, p.FishingPoint);
 
                 if (p.Fishing)
                 {        
-                    QueuedAction action = new QueuedAction { Action = MirAction.FishingCast, Direction = dir, Location = CurrentLocation };
+                    QueuedAction action = new QueuedAction { Action = MirAction.FishingCast, Direction = dir, Location = MapLocation };
                     ActionFeed.Add(action);
                 }
                 else
                 {
-                    QueuedAction action = new QueuedAction { Action = MirAction.FishingReel, Direction = dir, Location = CurrentLocation };
+                    QueuedAction action = new QueuedAction { Action = MirAction.FishingReel, Direction = dir, Location = MapLocation };
                     ActionFeed.Add(action);
                 }
 
@@ -773,7 +773,7 @@ namespace Client.MirObjects
                     if (Frame == null)
                     {
                         OffSetMove = Point.Empty;
-                        Movement = CurrentLocation;
+                        Movement = MapLocation;
                         break;
                     }
 
@@ -786,7 +786,7 @@ namespace Client.MirObjects
                     if (CurrentAction == MirAction.Jump) i = -JumpDistance;
                     if (CurrentAction == MirAction.DashAttack) i = JumpDistance;
 
-                    Movement = Functions.PointMove(CurrentLocation, Direction, CurrentAction == MirAction.Pushed ? 0 : -i);
+                    Movement = Functions.PointMove(MapLocation, Direction, CurrentAction == MirAction.Pushed ? 0 : -i);
 
                     int count = Frame.Count;
                     int index = FrameIndex;
@@ -829,14 +829,14 @@ namespace Client.MirObjects
                     break;
                 default:
                     OffSetMove = Point.Empty;
-                    Movement = CurrentLocation;
+                    Movement = MapLocation;
                     break;
             }
 
             #endregion
 
 
-            DrawY = Movement.Y > CurrentLocation.Y ? Movement.Y : CurrentLocation.Y;
+            DrawY = Movement.Y > MapLocation.Y ? Movement.Y : MapLocation.Y;
 
             DrawLocation = new Point((Movement.X - User.Movement.X + MapControl.OffSetX) * MapControl.CellWidth, (Movement.Y - User.Movement.Y + MapControl.OffSetY) * MapControl.CellHeight);
             DrawLocation.Offset(GlobalDisplayLocationOffset);
@@ -954,10 +954,10 @@ namespace Client.MirObjects
                 FrameIndex = 0;
                 EffectFrameIndex = 0;
 
-                if (MapLocation != CurrentLocation)
+                if (MapLocation != MapLocation)
                 {
                     GameScene.Scene.MapControl.RemoveObject(this);
-                    MapLocation = CurrentLocation;
+                    MapLocation = MapLocation;
                     GameScene.Scene.MapControl.AddObject(this);
                 }
 
@@ -998,44 +998,13 @@ namespace Client.MirObjects
                     }
                 }
 
-                CurrentLocation = action.Location;
                 MirDirection olddirection = Direction;
                 Direction = action.Direction;
 
-                Point temp;
-                switch (CurrentAction)
-                {
-                    case MirAction.Walking:
-                    case MirAction.Running:
-                    case MirAction.MountWalking:
-                    case MirAction.MountRunning:
-                    case MirAction.Pushed:
-                    case MirAction.DashL:
-                    case MirAction.DashR:
-                    case MirAction.Sneek:
-                        var steps = 0;
-                        if (CurrentAction == MirAction.MountRunning) steps = 3;
-                        else if (CurrentAction == MirAction.Running) steps = (Sprint && !Sneaking ? 3 : 2);
-                        else steps = 1;
-
-                        temp = Functions.PointMove(CurrentLocation, Direction, CurrentAction == MirAction.Pushed ? 0 : -steps);
-
-                        break;
-                    case MirAction.Jump:
-                    case MirAction.DashAttack:
-                        temp = Functions.PointMove(CurrentLocation, Direction, JumpDistance);
-                        break;
-                    default:
-                        temp = CurrentLocation;
-                        break;
-                }
-
-                temp = new Point(action.Location.X, temp.Y > CurrentLocation.Y ? temp.Y : CurrentLocation.Y);
-
-                if (MapLocation != temp)
+                if (MapLocation != action.Location)
                 {
                     GameScene.Scene.MapControl.RemoveObject(this);
-                    MapLocation = temp;
+                    MapLocation = action.Location;
                     GameScene.Scene.MapControl.AddObject(this);
                 }
 
@@ -1098,7 +1067,7 @@ namespace Client.MirObjects
                                 Frames.TryGetValue(MirAction.Running, out Frame);
                                 CurrentAction = MirAction.DashL;
                                 Direction = olddirection;
-                                CurrentLocation = Functions.PointMove(CurrentLocation, Direction, 1);
+                                MapLocation = Functions.PointMove(MapLocation, Direction, 1);
                                 if (this == User)
                                 {
                                     MapControl.NextAction = CMain.Time + 2500;
@@ -1167,7 +1136,7 @@ namespace Client.MirObjects
                                     {
                                         Frames.TryGetValue(MirAction.DashAttack, out Frame);
                                         CurrentAction = MirAction.DashAttack;
-                                        CurrentLocation = Functions.PointMove(CurrentLocation, Direction, JumpDistance);
+                                        MapLocation = Functions.PointMove(MapLocation, Direction, JumpDistance);
                                     }
                                     else
                                     {
@@ -1228,7 +1197,7 @@ namespace Client.MirObjects
                                     GetBackStepDistance(sLevel);
                                     Frames.TryGetValue(MirAction.Jump, out Frame);
                                     CurrentAction = MirAction.Jump;
-                                    CurrentLocation = Functions.PointMove(CurrentLocation, Functions.ReverseDirection(Direction), JumpDistance);
+                                    MapLocation = Functions.PointMove(MapLocation, Functions.ReverseDirection(Direction), JumpDistance);
                                     if (this == User)
                                     {
                                         MapControl.NextAction = CMain.Time + 800;
@@ -1373,12 +1342,12 @@ namespace Client.MirObjects
                                 if (GameScene.User.Slaying && TargetObject != null)
                                     Spell = Spell.Slaying;
 
-                                if (GameScene.User.Thrusting && GameScene.Scene.MapControl.HasTarget(Functions.PointMove(CurrentLocation, Direction, 2)))
+                                if (GameScene.User.Thrusting && GameScene.Scene.MapControl.HasTarget(Functions.PointMove(MapLocation, Direction, 2)))
                                     Spell = Spell.Thrusting;
 
                                 if (GameScene.User.HalfMoon)
                                 {
-                                    if (TargetObject != null || GameScene.Scene.MapControl.CanHalfMoon(CurrentLocation, Direction))
+                                    if (TargetObject != null || GameScene.Scene.MapControl.CanHalfMoon(MapLocation, Direction))
                                     {
                                         magic = User.GetMagic(Spell.HalfMoon);
                                         if (magic != null && magic.BaseCost + magic.LevelCost * magic.Level <= User.MP)
@@ -1388,7 +1357,7 @@ namespace Client.MirObjects
 
                                 if (GameScene.User.CrossHalfMoon)
                                 {
-                                    if (TargetObject != null || GameScene.Scene.MapControl.CanCrossHalfMoon(CurrentLocation))
+                                    if (TargetObject != null || GameScene.Scene.MapControl.CanCrossHalfMoon(MapLocation))
                                     {
                                         magic = User.GetMagic(Spell.CrossHalfMoon);
                                         if (magic != null && magic.BaseCost + magic.LevelCost * magic.Level <= User.MP)
@@ -1459,7 +1428,7 @@ namespace Client.MirObjects
                                 uint targetID = (uint)action.Params[0];
                                 Point location = (Point)action.Params[1];
 
-                                Network.Enqueue(new C.RangeAttack { Direction = Direction, Location = CurrentLocation, TargetID = targetID, TargetLocation = location });
+                                Network.Enqueue(new C.RangeAttack { Direction = Direction, Location = MapLocation, TargetID = targetID, TargetLocation = location });
                             }
                             break;
                         case MirAction.AttackRange2:
@@ -1532,7 +1501,7 @@ namespace Client.MirObjects
 
                         if (IsDashAttack())
                         {
-                            action = new QueuedAction { Action = MirAction.Attack4, Direction = Direction, Location = CurrentLocation, Params = new List<object>() };
+                            action = new QueuedAction { Action = MirAction.Attack4, Direction = Direction, Location = MapLocation, Params = new List<object>() };
                             action.Params.Add(Spell.FlashDash);
                             ActionFeed.Insert(0, action);
                         }
@@ -1553,7 +1522,7 @@ namespace Client.MirObjects
                                 FrameInterval = (int)(FrameInterval * 0.46f); //46% Animation Speed
                                 EffectFrameInterval = (int)(EffectFrameInterval * 0.46f);
 
-                                action = new QueuedAction { Action = MirAction.Attack4, Direction = Direction, Location = CurrentLocation, Params = new List<object>() };
+                                action = new QueuedAction { Action = MirAction.Attack4, Direction = Direction, Location = MapLocation, Params = new List<object>() };
                                 action.Params.Add(Spell);
                                 ActionFeed.Insert(0, action);
 
@@ -1569,7 +1538,7 @@ namespace Client.MirObjects
                             case Spell.TwinDrakeBlade:
                                 //FrameInterval = FrameInterval * 9 / 10; //70% Faster Animation
                                 //EffectFrameInterval = EffectFrameInterval * 9 / 10;
-                                //action = new QueuedAction { Action = MirAction.Attack4, Direction = Direction, Location = CurrentLocation, Params = new List<object>() };
+                                //action = new QueuedAction { Action = MirAction.Attack4, Direction = Direction, Location = MapLocation, Params = new List<object>() };
                                 //action.Params.Add(Spell);
                                 //ActionFeed.Insert(0, action);
                                 SoundManager.PlaySound(20000 + (ushort)Spell * 10);
@@ -1828,7 +1797,7 @@ namespace Client.MirObjects
                             #region MoonMist
 
                             case Spell.MoonMist:
-                                MapControl.Effects.Add(new Effect(Libraries.Magic3, 680, 25, 1800, CurrentLocation));
+                                MapControl.Effects.Add(new Effect(Libraries.Magic3, 680, 25, 1800, MapLocation));
                                 SoundManager.PlaySound(20000 + (ushort)Spell * 10);
                                 break;
 
@@ -1908,7 +1877,7 @@ namespace Client.MirObjects
                             #region FlameField
 
                             case Spell.FlameField:
-                                MapControl.Effects.Add(new Effect(Libraries.Magic2, 910, 23, 1800, CurrentLocation));
+                                MapControl.Effects.Add(new Effect(Libraries.Magic2, 910, 23, 1800, MapLocation));
                                 SoundManager.PlaySound(20000 + (ushort)Spell * 10);
                                 break;
 
@@ -1972,7 +1941,7 @@ namespace Client.MirObjects
                             #region ThunderStorm
 
                             case Spell.ThunderStorm:
-                                MapControl.Effects.Add(new Effect(Libraries.Magic, 1680, 10, Frame.Count * FrameInterval, CurrentLocation));
+                                MapControl.Effects.Add(new Effect(Libraries.Magic, 1680, 10, Frame.Count * FrameInterval, MapLocation));
                                 SoundManager.PlaySound(20000 + (ushort)Spell * 10);
                                 break;
 
@@ -2109,7 +2078,7 @@ namespace Client.MirObjects
                             #region SlashingBurst
 
                             case Spell.SlashingBurst:
-                                //MapControl.Effects.Add(new Effect(Libraries.Magic2, 1700 + (int)Direction * 10, 9, 9 * FrameInterval, CurrentLocation));
+                                //MapControl.Effects.Add(new Effect(Libraries.Magic2, 1700 + (int)Direction * 10, 9, 9 * FrameInterval, MapLocation));
                                 Effects.Add(new Effect(Libraries.Magic2, 1700 + (int)Direction * 10, 9, 9 * FrameInterval, this));
                                 SoundManager.PlaySound(20000 + (ushort)Spell * 10);
                                 SlashingBurstTime = CMain.Time + 2000;
@@ -2216,7 +2185,7 @@ namespace Client.MirObjects
 
                             #region OneWithNature
                             case Spell.OneWithNature:
-                                MapControl.Effects.Add(new Effect(Libraries.Magic3, 2710, 8, 1200, CurrentLocation));
+                                MapControl.Effects.Add(new Effect(Libraries.Magic3, 2710, 8, 1200, MapLocation));
                                 SoundManager.PlaySound(20000 + 139 * 10);
                                 break;
                             #endregion
@@ -2558,7 +2527,7 @@ namespace Client.MirObjects
                         if (UpdateFrame() >= Frame.Count)
                         {
                             //if (ActionFeed.Count == 0)
-                            //    ActionFeed.Add(new QueuedAction { Action = MirAction.Stance, Direction = Direction, Location = CurrentLocation });
+                            //    ActionFeed.Add(new QueuedAction { Action = MirAction.Stance, Direction = Direction, Location = MapLocation });
 
                             StanceTime = CMain.Time + StanceDelay;
                             FrameIndex = Frame.Count - 1;
@@ -3006,7 +2975,7 @@ namespace Client.MirObjects
                                         SoundManager.PlaySound(20000 + (ushort)Spell * 10 + 1);
 
                                         
-                                        Point dest = CurrentLocation;
+                                        Point dest = MapLocation;
                                         for (int i = 0; i < 4; i++)
                                         {
                                             dest = Functions.PointMove(dest, Direction, 1);
@@ -3020,7 +2989,7 @@ namespace Client.MirObjects
                                         if (SpellLevel == 3)
                                         {
                                             MirDirection dir = (MirDirection)(((int)Direction + 1) % 8);
-                                            dest = CurrentLocation;
+                                            dest = MapLocation;
                                             for (int r = 0; r < 4; r++)
                                             {
                                                 dest = Functions.PointMove(dest, dir, 1);
@@ -3032,7 +3001,7 @@ namespace Client.MirObjects
                                             }
 
                                             dir = (MirDirection)(((int)Direction - 1 + 8) % 8);
-                                            dest = CurrentLocation;
+                                            dest = MapLocation;
                                             for (int r = 0; r < 4; r++)
                                             {
                                                 dest = Functions.PointMove(dest, dir, 1);
@@ -3201,7 +3170,7 @@ namespace Client.MirObjects
 
                                     case Spell.IceThrust:
 
-                                        Point location = Functions.PointMove(CurrentLocation, Direction, 1);
+                                        Point location = Functions.PointMove(MapLocation, Direction, 1);
 
                                         MapControl.Effects.Add(new Effect(Libraries.Magic2, 1790 + (int)Direction * 10, 10, 10 * FrameInterval, location));
                                         SoundManager.PlaySound(20000 + (ushort)Spell * 10);
@@ -3518,7 +3487,7 @@ namespace Client.MirObjects
                                 Cast = false;
                             }
                             //if (ActionFeed.Count == 0)
-                            //    ActionFeed.Add(new QueuedAction { Action = MirAction.Stance, Direction = Direction, Location = CurrentLocation });
+                            //    ActionFeed.Add(new QueuedAction { Action = MirAction.Stance, Direction = Direction, Location = MapLocation });
 
                             StanceTime = CMain.Time + StanceDelay;
                             FrameIndex = Frame.Count - 1;
@@ -3554,7 +3523,7 @@ namespace Client.MirObjects
                         {
                             FrameIndex = Frame.Count - 1;
                             ActionFeed.Clear();
-                            ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = CurrentLocation });
+                            ActionFeed.Add(new QueuedAction { Action = MirAction.Dead, Direction = Direction, Location = MapLocation });
                             SetAction();
                         }
                         else
@@ -3590,7 +3559,7 @@ namespace Client.MirObjects
                         {
                             FrameIndex = Frame.Count - 1;
                             ActionFeed.Clear();
-                            ActionFeed.Add(new QueuedAction { Action = MirAction.Standing, Direction = Direction, Location = CurrentLocation });
+                            ActionFeed.Add(new QueuedAction { Action = MirAction.Standing, Direction = Direction, Location = MapLocation });
                             SetAction();
                         }
                         else
@@ -3646,9 +3615,9 @@ namespace Client.MirObjects
 
             var targetPoint = TargetPoint;
 
-            if (ob != null) targetPoint = ob.CurrentLocation;
+            if (ob != null) targetPoint = ob.MapLocation;
 
-            int duration = Functions.MaxDistance(CurrentLocation, targetPoint) * 50;
+            int duration = Functions.MaxDistance(MapLocation, targetPoint) * 50;
 
             Missile missile = new Missile(library, baseIndex, duration / interval, duration, this, targetPoint)
             {
@@ -3669,8 +3638,8 @@ namespace Client.MirObjects
         //Rebuild
         public void PlayStepSound()
         {
-            int x = CurrentLocation.X - CurrentLocation.X % 2;
-            int y = CurrentLocation.Y - CurrentLocation.Y % 2;
+            int x = MapLocation.X - MapLocation.X % 2;
+            int y = MapLocation.Y - MapLocation.Y % 2;
             if (GameScene.Scene.MapControl.M2CellInfo[x, y].FrontIndex > 199) return; //prevents any move sounds on non mir2 maps atm
             if (GameScene.Scene.MapControl.M2CellInfo[x, y].MiddleIndex > 199) return; //prevents any move sounds on non mir2 maps atm
             if (GameScene.Scene.MapControl.M2CellInfo[x, y].BackIndex > 199) return; //prevents any move sounds on non mir2 maps atm
@@ -5207,7 +5176,7 @@ namespace Client.MirObjects
             int dist = (magicLevel == 0) ? 1 : magicLevel;//3 max
             MirDirection jumpDir = Functions.ReverseDirection(Direction);
 
-            Point location = CurrentLocation;
+            Point location = MapLocation;
             for (int i = 0; i < dist; i++)//step 1t/m3
             {
                 location = Functions.PointMove(location, jumpDir, 1);
@@ -5238,7 +5207,7 @@ namespace Client.MirObjects
             int dist = (magicLevel <= 1) ? 0 : 1;
             MirDirection jumpDir = Direction;
 
-            Point location = CurrentLocation;
+            Point location = MapLocation;
             for (int i = 0; i < dist; i++)
             {
                 location = Functions.PointMove(location, jumpDir, 1);
@@ -5261,7 +5230,7 @@ namespace Client.MirObjects
 
         public bool IsDashAttack()
         {
-            Point location = CurrentLocation;
+            Point location = MapLocation;
             location = Functions.PointMove(location, Direction, 1);
 
             if (!GameScene.Scene.MapControl.ValidPoint(location)) return false;
@@ -5288,7 +5257,7 @@ namespace Client.MirObjects
 
         public override bool MouseOver(Point p)
         {
-            return MapControl.MapLocation == CurrentLocation || BodyLibrary != null && BodyLibrary.VisiblePixel(DrawFrame + ArmourOffSet, p.Subtract(FinalDrawLocation), false);
+            return MapControl.MapLocation == MapLocation || BodyLibrary != null && BodyLibrary.VisiblePixel(DrawFrame + ArmourOffSet, p.Subtract(FinalDrawLocation), false);
         }
 
         private void CreateNameLabel()

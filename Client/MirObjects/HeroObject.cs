@@ -28,7 +28,7 @@ namespace Client.MirObjects
             OwnerName = info.OwnerName;
 
             if (info.ObjectID == Hero?.ObjectID)
-                Hero.CurrentLocation = info.Location;
+                Hero.MapLocation = info.Location;
         }
 
         public override void CreateLabel()

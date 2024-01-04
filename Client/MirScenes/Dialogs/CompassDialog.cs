@@ -41,7 +41,7 @@ namespace Client.MirScenes.Dialogs
 
         public void Process()
         {
-            if (Destination == Point.Empty || (Destination.X == GameScene.User.CurrentLocation.X && Destination.Y == GameScene.User.CurrentLocation.Y))
+            if (Destination == Point.Empty || (Destination.X == GameScene.User.MapLocation.X && Destination.Y == GameScene.User.MapLocation.Y))
             {
                 Visible = false;
                 return;
@@ -49,8 +49,8 @@ namespace Client.MirScenes.Dialogs
 
             Visible = true;
 
-            float xDiff = GameScene.User.CurrentLocation.X - Destination.X;
-            float yDiff = GameScene.User.CurrentLocation.Y - Destination.Y;
+            float xDiff = GameScene.User.MapLocation.X - Destination.X;
+            float yDiff = GameScene.User.MapLocation.Y - Destination.Y;
 
             var angle = Math.Atan2(xDiff * -1, yDiff) * 180 / Math.PI;
 

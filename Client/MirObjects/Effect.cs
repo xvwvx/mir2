@@ -45,7 +45,7 @@ namespace Client.MirObjects
 
             NextFrame = Start + (Duration / Count) * (CurrentFrame + 1);
             Owner = owner;
-            Source = Owner.CurrentLocation;
+            Source = Owner.MapLocation;
 
             DrawBehind = drawBehind;
         }
@@ -153,7 +153,7 @@ namespace Client.MirObjects
             : base(library, baseIndex, count, duration, owner)
         {
             Missiles.Add(this);
-            Source = Owner.CurrentLocation;
+            Source = Owner.MapLocation;
             Destination = target;
             Direction = direction16 ? MapControl.Direction16(Source, Destination) : (int)Functions.DirectionFromPoint(Source, Destination);
         }
@@ -173,10 +173,10 @@ namespace Client.MirObjects
         {
             if (CMain.Time < Start) return;
 
-            if (Target != null) Destination = Target.CurrentLocation;
+            if (Target != null) Destination = Target.MapLocation;
             else if (!Explode)
             {
-                int dist = Functions.MaxDistance(Owner.CurrentLocation, Destination);
+                int dist = Functions.MaxDistance(Owner.MapLocation, Destination);
 
                 if (dist < Globals.DataRange)
                     Destination.Offset(Destination.X - Source.X, Destination.Y - Source.Y);

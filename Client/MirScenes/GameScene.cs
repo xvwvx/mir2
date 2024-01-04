@@ -2098,7 +2098,7 @@ namespace Client.MirScenes
         private void UserLocation(S.UserLocation p)
         {
             MapControl.NextAction = 0;
-            if (User.CurrentLocation == p.Location && User.Direction == p.Direction) return;
+            if (User.MapLocation == p.Location && User.Direction == p.Direction) return;
 
             if (Settings.DebugMode)
             {
@@ -2106,7 +2106,7 @@ namespace Client.MirScenes
             }
 
             MapControl.RemoveObject(User);
-            User.CurrentLocation = p.Location;
+            User.MapLocation = p.Location;
             User.MapLocation = p.Location;
             MapControl.AddObject(User);
 
@@ -2174,7 +2174,7 @@ namespace Client.MirScenes
             if (p.ObjectID == User.ObjectID && !Observing) return;
 
             if (p.ObjectID == Hero?.ObjectID)
-                Hero.CurrentLocation = p.Location;
+                Hero.MapLocation = p.Location;
 
             for (int i = MapControl.Objects.Count - 1; i >= 0; i--)
             {
@@ -2189,7 +2189,7 @@ namespace Client.MirScenes
             if (p.ObjectID == User.ObjectID && !Observing) return;
 
             if (p.ObjectID == Hero?.ObjectID)
-                Hero.CurrentLocation = p.Location;
+                Hero.MapLocation = p.Location;
 
             for (int i = MapControl.Objects.Count - 1; i >= 0; i--)
             {
@@ -3283,7 +3283,7 @@ namespace Client.MirScenes
                 Network.Enqueue(new C.CancelReincarnation {});
 
             MirDirection dir = User.Direction;
-            Point location = User.CurrentLocation;
+            Point location = User.MapLocation;
 
             for (int i = 0; i < User.ActionFeed.Count; i++)
                 if (User.ActionFeed[i].Action == MirAction.Struck) return;
@@ -3670,12 +3670,12 @@ namespace Client.MirScenes
                         ob.Dead = true;
                         break;
                     case 1:
-                        MapControl.Effects.Add(new Effect(Libraries.Magic2, 690, 10, 1000, ob.CurrentLocation));
+                        MapControl.Effects.Add(new Effect(Libraries.Magic2, 690, 10, 1000, ob.MapLocation));
                         ob.Remove();
                         break;
                     case 2:
                         SoundManager.PlaySound(20000 + (ushort)Spell.DarkBody * 10 + 1);
-                        MapControl.Effects.Add(new Effect(Libraries.Magic2, 2600, 10, 1200, ob.CurrentLocation));
+                        MapControl.Effects.Add(new Effect(Libraries.Magic2, 2600, 10, 1200, ob.MapLocation));
                         ob.Remove();
                         break;
                 }
@@ -3763,7 +3763,7 @@ namespace Client.MirScenes
             {
                 MapObject ob = MapControl.Objects[i];
                 if (ob.ObjectID != p.ObjectID) continue;
-                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Harvest, Direction = ob.Direction, Location = ob.CurrentLocation });
+                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Harvest, Direction = ob.Direction, Location = ob.MapLocation });
                 return;
             }
         }
@@ -3773,7 +3773,7 @@ namespace Client.MirScenes
             {
                 MapObject ob = MapControl.Objects[i];
                 if (ob.ObjectID != p.ObjectID) continue;
-                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Skeleton, Direction = ob.Direction, Location = ob.CurrentLocation });
+                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Skeleton, Direction = ob.Direction, Location = ob.MapLocation });
                 return;
             }
         }
@@ -3838,7 +3838,7 @@ namespace Client.MirScenes
             {
                 MapObject ob = MapControl.Objects[i];
                 if (ob.ObjectID != p.ObjectID) continue;
-                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Hide, Direction = ob.Direction, Location = ob.CurrentLocation });
+                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Hide, Direction = ob.Direction, Location = ob.MapLocation });
                 return;
             }
         }
@@ -3848,7 +3848,7 @@ namespace Client.MirScenes
             {
                 MapObject ob = MapControl.Objects[i];
                 if (ob.ObjectID != p.ObjectID) continue;
-                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Show, Direction = ob.Direction, Location = ob.CurrentLocation });
+                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Show, Direction = ob.Direction, Location = ob.MapLocation });
                 return;
             }
         }
@@ -3899,7 +3899,7 @@ namespace Client.MirScenes
 
             MapControl.NextAction = 0;
             Scene.MapControl.AutoPath = false;
-            User.CurrentLocation = p.Location;
+            User.MapLocation = p.Location;
             User.MapLocation = p.Location;
             MapControl.AddObject(User);
 
@@ -3929,17 +3929,17 @@ namespace Client.MirScenes
                 {
                     case 1: //Yimoogi
                         {
-                            effect = new Effect(Libraries.Magic2, 1300, 10, 500, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Magic2, 1300, 10, 500, ob.MapLocation);
                             break;
                         }
                     case 2: //RedFoxman
                         {
-                            effect = new Effect(Libraries.Monsters[(ushort)Monster.RedFoxman], 243, 10, 500, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Monsters[(ushort)Monster.RedFoxman], 243, 10, 500, ob.MapLocation);
                             break;
                         }
                     case 4: //MutatedManWorm
                         {
-                            effect = new Effect(Libraries.Monsters[(ushort)Monster.MutatedManworm], 272, 6, 500, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Monsters[(ushort)Monster.MutatedManworm], 272, 6, 500, ob.MapLocation);
 
                             SoundManager.PlaySound(((ushort)Monster.MutatedManworm) * 10 + 7);
                             playDefaultSound = false;
@@ -3947,54 +3947,54 @@ namespace Client.MirScenes
                         }
                     case 5: //WitchDoctor
                         {
-                            effect = new Effect(Libraries.Monsters[(ushort)Monster.WitchDoctor], 328, 20, 1000, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Monsters[(ushort)Monster.WitchDoctor], 328, 20, 1000, ob.MapLocation);
                             SoundManager.PlaySound(((ushort)Monster.WitchDoctor) * 10 + 7);
                             playDefaultSound = false;
                             break;
                         }
                     case 6: //TurtleKing
                         {
-                            effect = new Effect(Libraries.Monsters[(ushort)Monster.TurtleKing], 946, 10, 500, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Monsters[(ushort)Monster.TurtleKing], 946, 10, 500, ob.MapLocation);
                             break;
                         }
                     case 7: //Mandrill
                         {
-                            effect = new Effect(Libraries.Monsters[(ushort)Monster.Mandrill], 280, 10, 1000, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Monsters[(ushort)Monster.Mandrill], 280, 10, 1000, ob.MapLocation);
                             SoundManager.PlaySound(((ushort)Monster.Mandrill) * 10 + 6);
                             playDefaultSound = false;
                             break;
                         }
                     case 8: //DarkCaptain
                         {
-                            ob.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.DarkCaptain], 1224, 10, 1000, ob.CurrentLocation));
+                            ob.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.DarkCaptain], 1224, 10, 1000, ob.MapLocation));
                             SoundManager.PlaySound(((ushort)Monster.DarkCaptain) * 10 + 8);
                             playDefaultSound = false;
                             break;
                         }
                     case 9: //Doe
                         {
-                            effect = new Effect(Libraries.Monsters[(ushort)Monster.Doe], 208, 10, 1000, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Monsters[(ushort)Monster.Doe], 208, 10, 1000, ob.MapLocation);
                             SoundManager.PlaySound(((ushort)Monster.Doe) * 10 + 7);
                             playDefaultSound = false;
                             break;
                         }
                     case 10: //HornedCommander
                         {
-                            MapControl.Effects.Add(effect = new Effect(Libraries.Monsters[(ushort)Monster.HornedCommander], 928, 10, 1000, ob.CurrentLocation));
+                            MapControl.Effects.Add(effect = new Effect(Libraries.Monsters[(ushort)Monster.HornedCommander], 928, 10, 1000, ob.MapLocation));
                             SoundManager.PlaySound(8455);
                             playDefaultSound = false;
                             break;
                         }
                     case 11: //SnowWolfKing
                         {
-                            MapControl.Effects.Add(effect = new Effect(Libraries.Monsters[(ushort)Monster.SnowWolfKing], 561, 10, 1000, ob.CurrentLocation));
+                            MapControl.Effects.Add(effect = new Effect(Libraries.Monsters[(ushort)Monster.SnowWolfKing], 561, 10, 1000, ob.MapLocation));
                             SoundManager.PlaySound(8455);
                             playDefaultSound = false;
                             break;
                         }
                     default:
                         {
-                            effect = new Effect(Libraries.Magic, 250, 10, 500, ob.CurrentLocation);
+                            effect = new Effect(Libraries.Magic, 250, 10, 500, ob.MapLocation);
                             break;
                         }
                 }
@@ -4819,8 +4819,8 @@ namespace Client.MirScenes
                         break;
                     case SpellEffect.Behemoth:
                         {
-                            MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.Behemoth], 788, 10, 1500, ob.CurrentLocation));
-                            MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.Behemoth], 778, 10, 1500, ob.CurrentLocation, 0, true) { Blend = false });
+                            MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.Behemoth], 788, 10, 1500, ob.MapLocation));
+                            MapControl.Effects.Add(new Effect(Libraries.Monsters[(ushort)Monster.Behemoth], 778, 10, 1500, ob.MapLocation, 0, true) { Blend = false });
                         }
                         break;
                     case SpellEffect.Stunned:
@@ -4995,7 +4995,7 @@ namespace Client.MirScenes
                 }
                 ob.Dead = false;
                 ob.ActionFeed.Clear();
-                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Revive, Direction = ob.Direction, Location = ob.CurrentLocation });
+                ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Revive, Direction = ob.Direction, Location = ob.MapLocation });
                 return;
             }
         }
@@ -5420,7 +5420,7 @@ namespace Client.MirScenes
 
         private void UserDash(S.UserDash p)
         {
-            if (User.Direction == p.Direction && User.CurrentLocation == p.Location)
+            if (User.Direction == p.Direction && User.MapLocation == p.Location)
             {
                 MapControl.NextAction = 0;
                 return;
@@ -5486,7 +5486,7 @@ namespace Client.MirScenes
 
         private void UserBackStep(S.UserBackStep p)
         {
-            if (User.Direction == p.Direction && User.CurrentLocation == p.Location)
+            if (User.Direction == p.Direction && User.MapLocation == p.Location)
             {
                 MapControl.NextAction = 0;
                 return;
@@ -5513,7 +5513,7 @@ namespace Client.MirScenes
 
         private void UserDashAttack(S.UserDashAttack p)
         {
-            if (User.Direction == p.Direction && User.CurrentLocation == p.Location)
+            if (User.Direction == p.Direction && User.MapLocation == p.Location)
             {
                 MapControl.NextAction = 0;
                 return;
@@ -5542,11 +5542,11 @@ namespace Client.MirScenes
         private void UserAttackMove(S.UserAttackMove p)//Warrior Skill - SlashingBurst
         {
             MapControl.NextAction = 0;
-            if (User.CurrentLocation == p.Location && User.Direction == p.Direction) return;
+            if (User.MapLocation == p.Location && User.Direction == p.Direction) return;
 
 
             MapControl.RemoveObject(User);
-            User.CurrentLocation = p.Location;
+            User.MapLocation = p.Location;
             User.MapLocation = p.Location;
             MapControl.AddObject(User);
 
@@ -10311,7 +10311,7 @@ namespace Client.MirScenes
 
         public static Point MapLocation
         {
-            get { return GameScene.User == null ? Point.Empty : new Point(MouseLocation.X / CellWidth - OffSetX, MouseLocation.Y / CellHeight - OffSetY).Add(GameScene.User.CurrentLocation); }
+            get { return GameScene.User == null ? Point.Empty : new Point(MouseLocation.X / CellWidth - OffSetX, MouseLocation.Y / CellHeight - OffSetY).Add(GameScene.User.MapLocation); }
         }
 
         public static Point ToMouseLocation(Point p)
@@ -11295,9 +11295,9 @@ namespace Client.MirScenes
                         AutoRun = false;
                         if (MapObject.MouseObject == null)
                         {
-                            if (Settings.NewMove && MapLocation != MapObject.User.CurrentLocation && GameScene.Scene.MapControl.EmptyCell(MapLocation))
+                            if (Settings.NewMove && MapLocation != MapObject.User.MapLocation && GameScene.Scene.MapControl.EmptyCell(MapLocation))
                             {
-                                var path = GameScene.Scene.MapControl.PathFinder.FindPath(MapObject.User.CurrentLocation, MapLocation, 20);
+                                var path = GameScene.Scene.MapControl.PathFinder.FindPath(MapObject.User.MapLocation, MapLocation, 20);
 
                                 if (path != null && path.Count > 0)
                                 {
@@ -11464,13 +11464,13 @@ namespace Client.MirScenes
 
                     if (User.Class == MirClass.Archer && User.HasClassWeapon && !User.RidingMount && !User.Fishing)//ArcherTest - non aggressive targets (player / pets)
                     {
-                        if (Functions.InRange(MapObject.TargetObject.CurrentLocation, User.CurrentLocation, Globals.MaxAttackRange))
+                        if (Functions.InRange(MapObject.TargetObject.MapLocation, User.MapLocation, Globals.MaxAttackRange))
                         {
                             if (CMain.Time > GameScene.AttackTime)
                             {
-                                User.QueuedAction = new QueuedAction { Action = MirAction.AttackRange1, Direction = Functions.DirectionFromPoint(User.CurrentLocation, MapObject.TargetObject.CurrentLocation), Location = User.CurrentLocation, Params = new List<object>() };
+                                User.QueuedAction = new QueuedAction { Action = MirAction.AttackRange1, Direction = Functions.DirectionFromPoint(User.MapLocation, MapObject.TargetObject.MapLocation), Location = User.MapLocation, Params = new List<object>() };
                                 User.QueuedAction.Params.Add(MapObject.TargetObject != null ? MapObject.TargetObject.ObjectID : (uint)0);
-                                User.QueuedAction.Params.Add(MapObject.TargetObject.CurrentLocation);
+                                User.QueuedAction.Params.Add(MapObject.TargetObject.MapLocation);
 
                                 // MapObject.TargetObject = null; //stop constant attack when close up
                             }
@@ -11486,11 +11486,11 @@ namespace Client.MirScenes
                         //  return;
                     }
 
-                    else if (Functions.InRange(MapObject.TargetObject.CurrentLocation, User.CurrentLocation, 1))
+                    else if (Functions.InRange(MapObject.TargetObject.MapLocation, User.MapLocation, 1))
                     {
                         if (CMain.Time > GameScene.AttackTime && CanRideAttack() && !User.Poison.HasFlag(PoisonType.Dazed))
                         {
-                            User.QueuedAction = new QueuedAction { Action = MirAction.Attack1, Direction = Functions.DirectionFromPoint(User.CurrentLocation, MapObject.TargetObject.CurrentLocation), Location = User.CurrentLocation };
+                            User.QueuedAction = new QueuedAction { Action = MirAction.Attack1, Direction = Functions.DirectionFromPoint(User.MapLocation, MapObject.TargetObject.MapLocation), Location = User.MapLocation };
                             return;
                         }
                     }
@@ -11500,7 +11500,7 @@ namespace Client.MirScenes
             {
                 if (CMain.Time > GameScene.AttackTime)
                 {
-                    User.QueuedAction = new QueuedAction { Action = MirAction.Mine, Direction = User.Direction, Location = User.CurrentLocation };
+                    User.QueuedAction = new QueuedAction { Action = MirAction.Mine, Direction = User.Direction, Location = User.MapLocation };
                     return;
                 }
             }
@@ -11518,23 +11518,23 @@ namespace Client.MirScenes
                         bool fail = false;
                         for (int i = 1; i <= distance; i++ )
                         {
-                            if (!CheckDoorOpen(Functions.PointMove(User.CurrentLocation, direction, i)))
+                            if (!CheckDoorOpen(Functions.PointMove(User.MapLocation, direction, i)))
                                 fail = true;
                         }
                         if (!fail)
                         {
-                            User.QueuedAction = new QueuedAction { Action = MirAction.Running, Direction = direction, Location = Functions.PointMove(User.CurrentLocation, direction, distance) };
+                            User.QueuedAction = new QueuedAction { Action = MirAction.Running, Direction = direction, Location = Functions.PointMove(User.MapLocation, direction, distance) };
                             return;
                         }
                     }
-                    if ((CanWalk(direction, out direction)) && (CheckDoorOpen(Functions.PointMove(User.CurrentLocation, direction, 1))))
+                    if ((CanWalk(direction, out direction)) && (CheckDoorOpen(Functions.PointMove(User.MapLocation, direction, 1))))
                     {
-                        User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.CurrentLocation, direction, 1) };
+                        User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.MapLocation, direction, 1) };
                         return;
                     }
                     if (direction != User.Direction)
                     {
-                        User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.CurrentLocation };
+                        User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.MapLocation };
                         return;
                     }
                     return;
@@ -11548,7 +11548,7 @@ namespace Client.MirScenes
  
                         if (CMain.Alt && !User.RidingMount)
                         {
-                            User.QueuedAction = new QueuedAction { Action = MirAction.Harvest, Direction = direction, Location = User.CurrentLocation };
+                            User.QueuedAction = new QueuedAction { Action = MirAction.Harvest, Direction = direction, Location = User.MapLocation };
                             return;
                         }
 
@@ -11563,7 +11563,7 @@ namespace Client.MirScenes
                                 {
                                     if (target != null)
                                     {
-                                        if (!Functions.InRange(MapObject.MouseObject.CurrentLocation, User.CurrentLocation, Globals.MaxAttackRange))
+                                        if (!Functions.InRange(MapObject.MouseObject.MapLocation, User.MapLocation, Globals.MaxAttackRange))
                                         {
                                             if (CMain.Time >= OutputDelay)
                                             {
@@ -11574,9 +11574,9 @@ namespace Client.MirScenes
                                         }
                                     }
 
-                                    User.QueuedAction = new QueuedAction { Action = MirAction.AttackRange1, Direction = MouseDirection(), Location = User.CurrentLocation, Params = new List<object>() };
+                                    User.QueuedAction = new QueuedAction { Action = MirAction.AttackRange1, Direction = MouseDirection(), Location = User.MapLocation, Params = new List<object>() };
                                     User.QueuedAction.Params.Add(target != null ? target.ObjectID : (uint)0);
-                                    User.QueuedAction.Params.Add(Functions.PointMove(User.CurrentLocation, MouseDirection(), 9));
+                                    User.QueuedAction.Params.Add(Functions.PointMove(User.MapLocation, MouseDirection(), 9));
                                     return;
                                 }
                                 
@@ -11584,20 +11584,20 @@ namespace Client.MirScenes
                                 if (GameScene.User.DoubleSlash && (!User.HasClassWeapon && User.Weapon > -1)) return;
                                 if (User.Poison.HasFlag(PoisonType.Dazed)) return;
 
-                                User.QueuedAction = new QueuedAction { Action = MirAction.Attack1, Direction = direction, Location = User.CurrentLocation };
+                                User.QueuedAction = new QueuedAction { Action = MirAction.Attack1, Direction = direction, Location = User.MapLocation };
                             }
                             return;
                         }
 
                         if (MapObject.MouseObject is MonsterObject && User.Class == MirClass.Archer && MapObject.TargetObject != null && !MapObject.TargetObject.Dead && User.HasClassWeapon && !User.RidingMount) //ArcherTest - range attack
                         {
-                            if (Functions.InRange(MapObject.MouseObject.CurrentLocation, User.CurrentLocation, Globals.MaxAttackRange))
+                            if (Functions.InRange(MapObject.MouseObject.MapLocation, User.MapLocation, Globals.MaxAttackRange))
                             {
                                 if (CMain.Time > GameScene.AttackTime)
                                 {
-                                    User.QueuedAction = new QueuedAction { Action = MirAction.AttackRange1, Direction = direction, Location = User.CurrentLocation, Params = new List<object>() };
+                                    User.QueuedAction = new QueuedAction { Action = MirAction.AttackRange1, Direction = direction, Location = User.MapLocation, Params = new List<object>() };
                                     User.QueuedAction.Params.Add(MapObject.TargetObject.ObjectID);
-                                    User.QueuedAction.Params.Add(MapObject.TargetObject.CurrentLocation);
+                                    User.QueuedAction.Params.Add(MapObject.TargetObject.MapLocation);
                                 }
                             }
                             else
@@ -11611,7 +11611,7 @@ namespace Client.MirScenes
                             return;
                         }
 
-                        if (MapLocation == User.CurrentLocation)
+                        if (MapLocation == User.MapLocation)
                         {
                             if (CMain.Time > GameScene.PickUpTime)
                             {
@@ -11622,28 +11622,28 @@ namespace Client.MirScenes
                         }
 
                         //mine
-                        if (!ValidPoint(Functions.PointMove(User.CurrentLocation, direction, 1)))
+                        if (!ValidPoint(Functions.PointMove(User.MapLocation, direction, 1)))
                         {
                             if ((MapObject.User.Equipment[(int)EquipmentSlot.Weapon] != null) && (MapObject.User.Equipment[(int)EquipmentSlot.Weapon].Info.CanMine))
                             {
                                 if (direction != User.Direction)
                                 {
-                                    User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.CurrentLocation };
+                                    User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.MapLocation };
                                     return;
                                 }
                                 AutoHit = true;
                                 return;
                             }
                         }
-                        if ((CanWalk(direction, out direction)) && (CheckDoorOpen(Functions.PointMove(User.CurrentLocation, direction, 1))))
+                        if ((CanWalk(direction, out direction)) && (CheckDoorOpen(Functions.PointMove(User.MapLocation, direction, 1))))
                         {
 
-                            User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.CurrentLocation, direction, 1) };
+                            User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.MapLocation, direction, 1) };
                             return;
                         }
                         if (direction != User.Direction)
                         {
-                            User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.CurrentLocation };
+                            User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.MapLocation };
                             return;
                         }
 
@@ -11659,11 +11659,11 @@ namespace Client.MirScenes
                         if (MapObject.MouseObject is PlayerObject && MapObject.MouseObject != User && CMain.Ctrl) break;
                         if (Settings.NewMove) break;
 
-                        if (Functions.InRange(MapLocation, User.CurrentLocation, 2))
+                        if (Functions.InRange(MapLocation, User.MapLocation, 2))
                         {
                             if (direction != User.Direction)
                             {
-                                User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.CurrentLocation };
+                                User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.MapLocation };
                             }
                             return;
                         }
@@ -11676,23 +11676,23 @@ namespace Client.MirScenes
                             bool fail = false;
                             for (int i = 0; i <= distance; i++ )
                             {
-                                if (!CheckDoorOpen(Functions.PointMove(User.CurrentLocation, direction, i)))
+                                if (!CheckDoorOpen(Functions.PointMove(User.MapLocation, direction, i)))
                                     fail = true;
                             }
                             if (!fail)
                             {
-                                User.QueuedAction = new QueuedAction { Action = MirAction.Running, Direction = direction, Location = Functions.PointMove(User.CurrentLocation, direction, User.RidingMount || (User.Sprint && !User.Sneaking) ? 3 : 2) };
+                                User.QueuedAction = new QueuedAction { Action = MirAction.Running, Direction = direction, Location = Functions.PointMove(User.MapLocation, direction, User.RidingMount || (User.Sprint && !User.Sneaking) ? 3 : 2) };
                                 return;
                             }
                         }
-                        if ((CanWalk(direction, out direction)) && (CheckDoorOpen(Functions.PointMove(User.CurrentLocation, direction, 1))))
+                        if ((CanWalk(direction, out direction)) && (CheckDoorOpen(Functions.PointMove(User.MapLocation, direction, 1))))
                         {
-                            User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.CurrentLocation, direction, 1) };
+                            User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.MapLocation, direction, 1) };
                             return;
                         }
                         if (direction != User.Direction)
                         {
-                            User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.CurrentLocation };
+                            User.QueuedAction = new QueuedAction { Action = MirAction.Standing, Direction = direction, Location = User.MapLocation };
                             return;
                         }
                         break;
@@ -11707,7 +11707,7 @@ namespace Client.MirScenes
                     return;
                 }
 
-                var path = GameScene.Scene.MapControl.PathFinder.FindPath(MapObject.User.CurrentLocation, CurrentPath.Last().Location);
+                var path = GameScene.Scene.MapControl.PathFinder.FindPath(MapObject.User.MapLocation, CurrentPath.Last().Location);
 
                 if (path != null && path.Count > 0)
                     GameScene.Scene.MapControl.CurrentPath = path;
@@ -11717,7 +11717,7 @@ namespace Client.MirScenes
                     return;
                 }
 
-                Node currentNode = CurrentPath.SingleOrDefault(x => User.CurrentLocation == x.Location);
+                Node currentNode = CurrentPath.SingleOrDefault(x => User.MapLocation == x.Location);
                 if (currentNode != null)
                 {
                     while (true)
@@ -11732,16 +11732,16 @@ namespace Client.MirScenes
 
                 if (CurrentPath.Count > 0)
                 {
-                    MirDirection dir = Functions.DirectionFromPoint(User.CurrentLocation, CurrentPath.First().Location);
+                    MirDirection dir = Functions.DirectionFromPoint(User.MapLocation, CurrentPath.First().Location);
 
                     if (GameScene.CanRun && CanRun(dir) && CMain.Time > GameScene.NextRunTime && User.HP >= 10 && CurrentPath.Count > (User.RidingMount ? 2 : 1))
                     {
-                        User.QueuedAction = new QueuedAction { Action = MirAction.Running, Direction = dir, Location = Functions.PointMove(User.CurrentLocation, dir, User.RidingMount ? 3 : 2) };
+                        User.QueuedAction = new QueuedAction { Action = MirAction.Running, Direction = dir, Location = Functions.PointMove(User.MapLocation, dir, User.RidingMount ? 3 : 2) };
                         return;
                     }
                     if (CanWalk(dir))
                     {
-                        User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = dir, Location = Functions.PointMove(User.CurrentLocation, dir, 1) };
+                        User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = dir, Location = Functions.PointMove(User.MapLocation, dir, 1) };
 
                         return;
                     }
@@ -11751,13 +11751,13 @@ namespace Client.MirScenes
             if (MapObject.TargetObject == null || MapObject.TargetObject.Dead) return;
             if (((!MapObject.TargetObject.Name.EndsWith(")") && !(MapObject.TargetObject is PlayerObject)) || !CMain.Shift) &&
                 (MapObject.TargetObject.Name.EndsWith(")") || !(MapObject.TargetObject is MonsterObject))) return;
-            if (Functions.InRange(MapObject.TargetObject.CurrentLocation, User.CurrentLocation, 1)) return;
+            if (Functions.InRange(MapObject.TargetObject.MapLocation, User.MapLocation, 1)) return;
             if (User.Class == MirClass.Archer && User.HasClassWeapon && (MapObject.TargetObject is MonsterObject || MapObject.TargetObject is PlayerObject)) return; //ArcherTest - stop walking
-            direction = Functions.DirectionFromPoint(User.CurrentLocation, MapObject.TargetObject.CurrentLocation);
+            direction = Functions.DirectionFromPoint(User.MapLocation, MapObject.TargetObject.MapLocation);
 
             if (!CanWalk(direction, out direction)) return;
 
-            User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.CurrentLocation, direction, 1) };
+            User.QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = direction, Location = Functions.PointMove(User.MapLocation, direction, 1) };
         }
 
         public void UseMagic(ClientMagic magic, UserObject actor)
@@ -11964,16 +11964,16 @@ namespace Client.MirScenes
                         break;
             }
 
-            MirDirection dir = (target == null || target == User) ? actor.NextMagicDirection : Functions.DirectionFromPoint(actor.CurrentLocation, target.CurrentLocation);
+            MirDirection dir = (target == null || target == User) ? actor.NextMagicDirection : Functions.DirectionFromPoint(actor.MapLocation, target.MapLocation);
 
-            Point location = target != null ? target.CurrentLocation : actor.NextMagicLocation;
+            Point location = target != null ? target.MapLocation : actor.NextMagicLocation;
 
             uint targetID = target != null ? target.ObjectID : 0;
 
             if (magic.Spell == Spell.FlashDash)
                 dir = actor.Direction;
 
-            if ((magic.Range != 0) && (!Functions.InRange(actor.CurrentLocation, location, magic.Range)))
+            if ((magic.Range != 0) && (!Functions.InRange(actor.MapLocation, location, magic.Range)))
             {
                 if (CMain.Time >= OutputDelay)
                 {
@@ -11988,7 +11988,7 @@ namespace Client.MirScenes
 
             if (actor == User)
             {
-                User.QueuedAction = new QueuedAction { Action = MirAction.Spell, Direction = dir, Location = User.CurrentLocation, Params = new List<object>() };
+                User.QueuedAction = new QueuedAction { Action = MirAction.Spell, Direction = dir, Location = User.MapLocation, Params = new List<object>() };
                 User.QueuedAction.Params.Add(magic.Spell);
                 User.QueuedAction.Params.Add(targetID);
                 User.QueuedAction.Params.Add(location);
@@ -12066,7 +12066,7 @@ namespace Client.MirScenes
             {
                 MapObject ob = Objects[i];
 
-                if (ob.CurrentLocation == p && ob.Blocking)
+                if (ob.MapLocation == p && ob.Blocking)
                     return false;
             }
 
@@ -12075,7 +12075,7 @@ namespace Client.MirScenes
 
         private bool CanWalk(MirDirection dir)
         {
-            return EmptyCell(Functions.PointMove(User.CurrentLocation, dir, 1)) && !User.InTrapRock;
+            return EmptyCell(Functions.PointMove(User.MapLocation, dir, 1)) && !User.InTrapRock;
         }
 
         private bool CanWalk(MirDirection dir, out MirDirection outDir)
@@ -12083,18 +12083,18 @@ namespace Client.MirScenes
             outDir = dir;
             if (User.InTrapRock) return false;            
             
-            if (EmptyCell(Functions.PointMove(User.CurrentLocation, dir, 1)))
+            if (EmptyCell(Functions.PointMove(User.MapLocation, dir, 1)))
                 return true;
 
             dir = Functions.NextDir(outDir);
-            if (EmptyCell(Functions.PointMove(User.CurrentLocation, dir, 1)))
+            if (EmptyCell(Functions.PointMove(User.MapLocation, dir, 1)))
             {
                 outDir = dir;
                 return true;
             }
 
             dir = Functions.PreviousDir(outDir);
-            if (EmptyCell(Functions.PointMove(User.CurrentLocation, dir, 1)))
+            if (EmptyCell(Functions.PointMove(User.MapLocation, dir, 1)))
             {
                 outDir = dir;
                 return true;
@@ -12137,11 +12137,11 @@ namespace Client.MirScenes
             if (User.InTrapRock) return false;
             if (User.CurrentBagWeight > User.Stats[Stat.BagWeight]) return false;
             if (User.CurrentWearWeight > User.Stats[Stat.BagWeight]) return false;
-            if (CanWalk(dir) && EmptyCell(Functions.PointMove(User.CurrentLocation, dir, 2)))
+            if (CanWalk(dir) && EmptyCell(Functions.PointMove(User.MapLocation, dir, 2)))
             {
                 if (User.RidingMount || User.Sprint && !User.Sneaking)
                 {
-                    return EmptyCell(Functions.PointMove(User.CurrentLocation, dir, 3));
+                    return EmptyCell(Functions.PointMove(User.MapLocation, dir, 3));
                 }
 
                 return true;
@@ -12168,7 +12168,7 @@ namespace Client.MirScenes
             if (GameScene.User.Direction != dir) return false;
             if (GameScene.User.TransformType >= 6 && GameScene.User.TransformType <= 9) return false;
 
-            Point point = Functions.PointMove(User.CurrentLocation, dir, 3);
+            Point point = Functions.PointMove(User.MapLocation, dir, 3);
 
             if (!M2CellInfo[point.X, point.Y].FishingCell) return false;
 
@@ -12177,7 +12177,7 @@ namespace Client.MirScenes
 
         public bool CanFly(Point target)
         {
-            Point location = User.CurrentLocation;
+            Point location = User.MapLocation;
             while (location != target)
             {
                 MirDirection dir = Functions.DirectionFromPoint(location, target);
@@ -12204,7 +12204,7 @@ namespace Client.MirScenes
             {
                 MapObject ob = Objects[i];
 
-                if (ob.CurrentLocation == p && ob.Blocking)
+                if (ob.MapLocation == p && ob.Blocking)
                     return true;
             }
             return false;
