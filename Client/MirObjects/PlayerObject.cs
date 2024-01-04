@@ -791,40 +791,8 @@ namespace Client.MirObjects
                     int count = Frame.Count;
                     int index = FrameIndex;
 
-                    if (CurrentAction == MirAction.DashR || CurrentAction == MirAction.DashL)
-                    {
-                        count = 3;
-                        index %= 3;
-                    }
-
-                    switch (Direction)
-                    {
-                        case MirDirection.Up:
-                            OffSetMove = new Point(0, (int)((MapControl.CellHeight * i / (float)(count)) * (index + 1)));
-                            break;
-                        case MirDirection.UpRight:
-                            OffSetMove = new Point((int)((-MapControl.CellWidth * i / (float)(count)) * (index + 1)), (int)((MapControl.CellHeight * i / (float)(count)) * (index + 1)));
-                            break;
-                        case MirDirection.Right:
-                            OffSetMove = new Point((int)((-MapControl.CellWidth * i / (float)(count)) * (index + 1)), 0);
-                            break;
-                        case MirDirection.DownRight:
-                            OffSetMove = new Point((int)((-MapControl.CellWidth * i / (float)(count)) * (index + 1)), (int)((-MapControl.CellHeight * i / (float)(count)) * (index + 1)));
-                            break;
-                        case MirDirection.Down:
-                            OffSetMove = new Point(0, (int)((-MapControl.CellHeight * i / (float)(count)) * (index + 1)));
-                            break;
-                        case MirDirection.DownLeft:
-                            OffSetMove = new Point((int)((MapControl.CellWidth * i / (float)(count)) * (index + 1)), (int)((-MapControl.CellHeight * i / (float)(count)) * (index + 1)));
-                            break;
-                        case MirDirection.Left:
-                            OffSetMove = new Point((int)((MapControl.CellWidth * i / (float)(count)) * (index + 1)), 0);
-                            break;
-                        case MirDirection.UpLeft:
-                            OffSetMove = new Point((int)((MapControl.CellWidth * i / (float)(count)) * (index + 1)), (int)((MapControl.CellHeight * i / (float)(count)) * (index + 1)));
-                            break;
-                    }
-
+                    var offset = Functions.PointMove(Point.Empty, Direction, -i);
+                    OffSetMove = new Point((int)(MapControl.CellWidth * offset.X / (float)count * (index + 1)), (int)(MapControl.CellHeight * offset.Y / (float)count * (index + 1)));
                     OffSetMove = new Point(OffSetMove.X % 2 + OffSetMove.X, OffSetMove.Y % 2 + OffSetMove.Y);
                     break;
                 default:
@@ -1018,10 +986,6 @@ namespace Client.MirObjects
                             MapControl.InputDelay = CMain.Time + 500;
                         Frames.TryGetValue(MirAction.Walking, out Frame);
                         break;
-                    case MirAction.DashL:
-                    case MirAction.DashR:
-                        Frames.TryGetValue(MirAction.Running, out Frame);
-                        break;
                     case MirAction.DashAttack:
                         Frames.TryGetValue(MirAction.DashAttack, out Frame);
                         break;
@@ -1064,7 +1028,7 @@ namespace Client.MirObjects
                         switch (Spell)
                         {
                             case Spell.ShoulderDash:
-                                Frames.TryGetValue(MirAction.Running, out Frame);
+                                Frames.TryGetValue(MirAction.DashL, out Frame);
                                 CurrentAction = MirAction.DashL;
                                 Direction = olddirection;
                                 MapLocation = Functions.PointMove(MapLocation, Direction, 1);
@@ -1476,15 +1440,9 @@ namespace Client.MirObjects
                         EffectFrameIndex = Frame.EffectCount - 1;
                         GameScene.Scene.Redraw();
                         break;
-                    case MirAction.DashL:
                     case MirAction.Jump:
                         FrameIndex = 0;
                         EffectFrameIndex = 0;
-                        GameScene.Scene.Redraw();
-                        break;
-                    case MirAction.DashR:
-                        FrameIndex = 3;
-                        EffectFrameIndex = 3;
                         GameScene.Scene.Redraw();
                         break;
                     case MirAction.Walking:
@@ -2360,19 +2318,6 @@ namespace Client.MirObjects
                     }
                     break;
                 case MirAction.DashL:
-                    if (!GameScene.CanMove) return;
-
-                    GameScene.Scene.MapControl.TextureValid = false;
-
-                    if (this == User) GameScene.Scene.MapControl.FloorValid = false;
-                    if (UpdateFrame() >= 3)
-                    {
-                        FrameIndex = 2;
-                        SetAction();
-                    }
-
-                    if (UpdateFrame2() >= 3) EffectFrameIndex = 2;
-                    break;
                 case MirAction.DashR:
                     if (!GameScene.CanMove) return;
 
@@ -2380,13 +2325,13 @@ namespace Client.MirObjects
 
                     if (this == User) GameScene.Scene.MapControl.FloorValid = false;
 
-                    if (UpdateFrame() >= 6)
+                    if (UpdateFrame() >= Frame.Count)
                     {
-                        FrameIndex = 5;
+                        FrameIndex = Frame.Count - 1;
                         SetAction();
                     }
 
-                    if (UpdateFrame2() >= 6) EffectFrameIndex = 5;
+                    if (UpdateFrame2() >= Frame.EffectCount) EffectFrameIndex = Frame.EffectCount - 1;
                     break;
                 case MirAction.Pushed:
                     if (!GameScene.CanMove) return;

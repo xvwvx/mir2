@@ -157,6 +157,8 @@
             Player.Add(MirAction.Standing, new Frame(0, 4, 0, 500, 0, 8, 0, 250));
             Player.Add(MirAction.Walking, new Frame(32, 6, 0, 100, 64, 6, 0, 100));
             Player.Add(MirAction.Running, new Frame(80, 6, 0, 100, 112, 6, 0, 100));
+            Player.Add(MirAction.DashL, new Frame(80, 3, 3, 100, 112, 3, 3, 100));
+            Player.Add(MirAction.DashR, new Frame(80 + 3, 3, 3, 100, 112 + 3, 3, 3, 100));
             Player.Add(MirAction.Stance, new Frame(128, 1, 0, 1000, 160, 1, 0, 1000));
             Player.Add(MirAction.Stance2, new Frame(300, 1, 5, 1000, 332, 1, 5, 1000));
             Player.Add(MirAction.Attack1, new Frame(136, 6, 0, 100, 168, 6, 0, 100));
